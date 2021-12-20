@@ -17,3 +17,15 @@
 ## 性能优化技巧
 
 （未完待续）
+
+## LoongArch32
+
+对于已经参加过NSCSCC的同学，打算放弃MIPS架构，尝试做LoongArch32，可以参考以下资料：
+
+[龙芯架构32位精简版参考手册](https://mirrors.tuna.tsinghua.edu.cn/loongson/docs/LoongArch32.pdf)
+
+[chiplab](https://gitee.com/loongson-edu/chiplab)
+
+[计算机体系结构基础](https://foxsen.github.io/archbase/)
+
+[《计算机体系结构基础》第3版问市，采用LoongArch案例，提供免费下载！](https://mp.weixin.qq.com/s/bYOiSFRa-wereDAxcaF-Mg)
