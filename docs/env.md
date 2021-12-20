@@ -21,7 +21,7 @@
 镜像：
 [https://gitee.com/cyyself/CO-lab-material-CQU](https://gitee.com/cyyself/CO-lab-material-CQU)
 
-推荐同学们先安装git，然后打开你的命令行，输入以下命令下载实验包：
+推荐同学们先安装[git](https://git-scm.com/)，然后打开你的命令行，输入以下命令下载实验包：
 
 ```shell
 git clone https://gitee.com/cyyself/CO-lab-material-CQU.git
