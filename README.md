@@ -7,7 +7,7 @@
 环境安装：
 
 ```shell
-pip install mkdocs-material
+pip install -r requirements.txt
 ```
 
 预览：

@@ -1,9 +1,11 @@
-site_name: 重庆大学2019级硬件综合设计实验文档
+site_name: 重庆大学硬件综合设计实验文档
 copyright: 'Copyright &copy; 2021 College of Computer Science, Chongqing University.'
 theme:
   name: material
   features:
     - navigation.tabs
+  icon:
+    logo: material/memory
 nav:
   - 主页: index.md
   - 环境配置:
@@ -23,3 +25,17 @@ nav:
     - LoongArch32: ext/la32.md
   - 调试技巧:
     - 使用波形图: tips/wave_debug.md
+plugins:
+  - search
+  - git-revision-date-localized:
+      fallback_to_build_date: true
+      locale: zh
+  - git-authors:
+      show_contribution: true
+      show_line_count: true
+markdown_extensions:
+  - codehilite:
+      guess_lang: false
+      linenums: true
+repo_name: 'CO-lab-docs-CQU'
+repo_url: 'https://github.com/cyyself/CO-lab-docs-CQU'
