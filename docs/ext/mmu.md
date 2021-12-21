@@ -97,7 +97,7 @@ TLB的作用是供处理器运行在虚拟内存地址时快速完成虚拟地�
 
 **以下寄存器(x,y)表示Register x, Sel y，在大家使用mtc0和mfc0指令的时候将会用到。**
 
-#### EntryLo0(2,0)、EntryLo1(3,1)
+#### EntryLo0(2,0)、EntryLo1(3,0)
 
 | 名称 | 位域 | 描述                                                         | 读/写 | 重置状态 |
 | ---- | ---- | ------------------------------------------------------------ | ----- | -------- |
@@ -126,7 +126,7 @@ TLB的作用是供处理器运行在虚拟内存地址时快速完成虚拟地�
 
 #### BadVAddr(8,0)
 
-我们在之前已经实现了`AdEL`和`AdES`两种例外，当这两种例外发生时需要将错误的虚拟地址填写到这个寄存器中，当发生TLB相关的3钟例外使也是如此。
+我们在之前已经实现了`AdEL`和`AdES`两种例外，当这两种例外发生时需要将错误的虚拟地址填写到这个寄存器中，当发生TLB相关的3种例外使也是如此。
 
 #### Index(0,0)
 
@@ -230,7 +230,7 @@ v       v   v  v                   v v      v
 
 产生原因：正在访问的虚拟地址TLB没有匹配到（注意，没有匹配不等同Valid Bit没有设置）。
 
-`CP0_status[ExCode]`：TLBL（Load操作或取指）、TLBS：（store操作）
+`CP0_status[ExCode]`：TLBL（ExCode=2，Load操作或取指）、TLBS：（ExCode=3，store操作）
 
 额外动作（不含Status、Cause、EPC的常规操作）：
 
@@ -242,7 +242,7 @@ v       v   v  v                   v v      v
 
 产生原因：正在访问的虚拟地址TLB匹配成功，但是Valid Bit为0。
 
-`CP0_status[ExCode]`：TLBL（Load操作或取指）、TLBS：（store操作）
+`CP0_status[ExCode]`：TLBL（ExCode=2，Load操作或取指）、TLBS：（ExCode=3，store操作）
 
 额外动作（不含Status、Cause、EPC的常规操作）：
 
@@ -254,7 +254,7 @@ v       v   v  v                   v v      v
 
 产生原因：写入某个虚拟地址的时候，TLB匹配有效，但是Dirty Bit为0（被保护不可写）。
 
-`CP0_status[ExCode]`：Mod。
+`CP0_status[ExCode]`：Mod（ExCode=1）。
 
 额外动作（不含Status、Cause、EPC的常规操作）：
 
