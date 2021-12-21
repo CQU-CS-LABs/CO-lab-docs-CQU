@@ -15,6 +15,7 @@ nav:
     - 回顾计组实验四: basic/lab4.md
     - 扩展到52条指令: basic/extend_52.md
     - 扩展到57条指令: basic/extend_57.md
+    - 封装SRAM-SOC:      basic/sram_soc.md
     - 基础Cache:      basic/basic_cache.md
   - 扩展实验:
     - AXI接口: ext/axi.md
