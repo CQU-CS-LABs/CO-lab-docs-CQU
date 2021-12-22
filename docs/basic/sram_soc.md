@@ -36,7 +36,7 @@
 
 #### 资料包sram_ram vivado项目
 
-sram-soc的外部顶层文件已经在此项目中提供，项目地址在[Yangyu Chen/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
+sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-lab-material-CQU/test/func_test_v0.01_n4ddr/soc_sram_func](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
 
 #### 连接mips与soc_sram
 
@@ -64,7 +64,7 @@ sram-soc的外部顶层文件已经在此项目中提供，项目地址在[Yangy
 
 #### 地址转换
 
-mmu模块在[Yangyu Chen/CO-lab-material-CQU/tree/2021/ref_code/mmu](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/ref_code/mmu)目录下，将其添加到mips中
+mmu模块在[CO-lab-material-CQU/ref_code/mmu](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/ref_code/mmu)目录下，将其添加到mips中
 
 - inst_vaddr 表示指令地址 pc
 - inst_paddr 表示 pc转换为 inst_ram正确的地址
@@ -77,11 +77,11 @@ mmu模块在[Yangyu Chen/CO-lab-material-CQU/tree/2021/ref_code/mmu](https://git
 
 ## 功能测试
 
-独立测试程序比较简单，因此在通过了前6类指令的独立测试后，**还不能认为我们的CPU实现正确**，我们现在需要运行更加复杂的**功能测试**程序。该功能测试程序包含89个测试点，测试了指令、延迟槽、异常等情况。
+独立测试程序比较简单，因此在通过了前6类指令的独立测试后， **还不能认为我们的CPU实现正确** ，我们现在需要运行更加复杂的 **功能测试** 程序。该功能测试程序包含89个测试点，测试了指令、延迟槽、异常等情况。
 
 1. #### **trace调试**
 
-接入soc后，我们引入了trace调试机制，可以**自动化地定位**到我们cpu运行错误的地方。关于trace调试说明请参考`doc/龙芯杯/A11_Trace 比对机制使用说明_v1.00`文档。为了进行trace调试，我们需要在mycpu_top模块引出相关的**比对信号**——`debug_wb_pc`, `debug_wb_rf_wen`, `debug_wb_rf_num`,`debug_wb_wdata`。
+接入soc后，我们引入了trace调试机制，可以 **自动化地定位** 到我们cpu运行错误的地方。关于trace调试说明请参考`doc/龙芯杯/A11_Trace 比对机制使用说明_v1.00`文档。为了进行trace调试，我们需要在mycpu_top模块引出相关的 **比对信号** ——`debug_wb_pc`, `debug_wb_rf_wen`, `debug_wb_rf_num`,`debug_wb_wdata`。
 
 运行仿真时，Tcl控制台会每个10000ns输出当前仿真的时间，以及当前 debug_wb_pc 的值。每通过一个测试点还会输出通过的测试点编号。
 
@@ -136,11 +136,11 @@ func_part目录包含三个obj文件：
 `define TRACE_REF_FILE "../../../../../../../cpu132_gettrace/golden_trace_1.txt
 ```
 
-同理使用哪个obj，就需要将testbench文件修改成对应那一条golden_trace。如果遇到`file can't open`的问题可以将路径改为**绝对路径**。
+同理使用哪个obj，就需要将testbench文件修改成对应那一条golden_trace。如果遇到`file can't open`的问题可以将路径改为 **绝对路径** 。
 
 ## **上板测试**
 
-sram_soc功能测试的文件为当前使用的`func_test_v0.01_n4ddr/soc_sram_func`，在仿真完成后可以上板测试，若不通过请检查是否写了不可综合的语法（例如在Verilog里写了#来实现延迟甚至内部时钟，这样的代码是不可综合的），并检查所有的Critical Warning。如果在Implementation后出现Timing为红，可以**修改pll降低CPU频率**后进行测试。
+sram_soc功能测试的文件为当前使用的`func_test_v0.01_n4ddr/soc_sram_func`，在仿真完成后可以上板测试，若不通过请检查是否写了不可综合的语法（例如在Verilog里写了#来实现延迟甚至内部时钟，这样的代码是不可综合的），并检查所有的Critical Warning。如果在Implementation后出现Timing为红，可以 **修改pll降低CPU频率** 后进行测试。
 
 #### **调节CPU时钟频率** 
 
