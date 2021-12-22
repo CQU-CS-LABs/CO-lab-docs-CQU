@@ -36,7 +36,7 @@
 
 #### 资料包sram_ram vivado项目
 
-sram-soc的外部顶层文件已经在此项目中提供，项目地址在[Yangyu Chen/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
+sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-lab-material-CQU/test/func_test_v0.01_n4ddr/soc_sram_func](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
 
 #### 连接mips与soc_sram
 
@@ -64,7 +64,7 @@ sram-soc的外部顶层文件已经在此项目中提供，项目地址在[Yangy
 
 #### 地址转换
 
-mmu模块在[Yangyu Chen/CO-lab-material-CQU/tree/2021/ref_code/mmu](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/ref_code/mmu)目录下，将其添加到mips中
+mmu模块在[CO-lab-material-CQU/ref_code/mmu](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/ref_code/mmu)目录下，将其添加到mips中
 
 - inst_vaddr 表示指令地址 pc
 - inst_paddr 表示 pc转换为 inst_ram正确的地址
