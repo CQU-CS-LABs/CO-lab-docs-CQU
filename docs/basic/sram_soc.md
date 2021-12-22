@@ -12,16 +12,16 @@
 
 ![img](../img/sram_soc_2.png)
 
-- **clk**: 时钟信号
-- **en**: 使能信号，使用时置1
-- **addr**: 读写地址
-- **wen**: 写使能信号，标志写入的位置（0000标志不写入，1100写入前半字，0011写入后半字，1111写入字）
-- **wdata**: 写入RAM的数据
-- **rdata**: 从RAM中读出的数据
+-  **clk** : 时钟信号
+-  **en** : 使能信号，使用时置1
+-  **addr** : 读写地址
+-  **wen** : 写使能信号，标志写入的位置（0000标志不写入，1100写入前半字，0011写入后半字，1111写入字）
+-  **wdata** : 写入RAM的数据
+-  **rdata** : 从RAM中读出的数据
 
 综上，我们仅仅还是做了一个具有57条指令的CPU，那么，我们为什么要做一个SOC
 
-## **为什么要连接SOC**
+## 为什么要连接SOC
 
 - 搭建SOC系统，连接外设
 
@@ -32,7 +32,7 @@
 - 可以上板
 - 运行程序，成为真正的片上系统 
 
-## **连接方法**
+## 连接方法
 
 #### 资料包sram_ram vivado项目
 
@@ -77,11 +77,11 @@ mmu模块在[Yangyu Chen/CO-lab-material-CQU/tree/2021/ref_code/mmu](https://git
 
 ## 功能测试
 
-独立测试程序比较简单，因此在通过了前6类指令的独立测试后，**还不能认为我们的CPU实现正确**，我们现在需要运行更加复杂的**功能测试**程序。该功能测试程序包含89个测试点，测试了指令、延迟槽、异常等情况。
+独立测试程序比较简单，因此在通过了前6类指令的独立测试后， **还不能认为我们的CPU实现正确** ，我们现在需要运行更加复杂的 **功能测试** 程序。该功能测试程序包含89个测试点，测试了指令、延迟槽、异常等情况。
 
-1. #### **trace调试**
+1. #### trace调试
 
-接入soc后，我们引入了trace调试机制，可以**自动化地定位**到我们cpu运行错误的地方。关于trace调试说明请参考`doc/龙芯杯/A11_Trace 比对机制使用说明_v1.00`文档。为了进行trace调试，我们需要在mycpu_top模块引出相关的**比对信号**——`debug_wb_pc`, `debug_wb_rf_wen`, `debug_wb_rf_num`,`debug_wb_wdata`。
+接入soc后，我们引入了trace调试机制，可以 **自动化地定位** 到我们cpu运行错误的地方。关于trace调试说明请参考`doc/龙芯杯/A11_Trace 比对机制使用说明_v1.00`文档。为了进行trace调试，我们需要在mycpu_top模块引出相关的 **比对信号** ——`debug_wb_pc`, `debug_wb_rf_wen`, `debug_wb_rf_num`,`debug_wb_wdata`。
 
 运行仿真时，Tcl控制台会每个10000ns输出当前仿真的时间，以及当前 debug_wb_pc 的值。每通过一个测试点还会输出通过的测试点编号。
 
@@ -108,7 +108,7 @@ Test begin!
     mycpu    : PC = 0xbfc58298, wb_rf_wnum = 0x08, wb_rf_wdata = 0xf6865a84
 ```
 
-1. #### **关于soft中的func与func_part**
+1. #### 关于soft中的func与func_part
 
 func是所有的57条指令的总测试集，共89个测试点。
 
@@ -122,7 +122,7 @@ func_part目录包含三个obj文件：
 
 从测试点65开始涉及异常。因此在测试异常相关指令时，我们可以使用obj_3直接进行测试，而不用等待前面的测试点通过。
 
-1. #### **接入方法**
+1. #### 接入方法
 
 由于功能测试被拆成了三个部分，因此我们的golden_trace也生成了三个部分，所以在使用trace的时候需要做一些修改：如使用 obj_1 测试的时候，需要将 testbench/mycpu_tb.v 中的
 
@@ -136,13 +136,13 @@ func_part目录包含三个obj文件：
 `define TRACE_REF_FILE "../../../../../../../cpu132_gettrace/golden_trace_1.txt
 ```
 
-同理使用哪个obj，就需要将testbench文件修改成对应那一条golden_trace。如果遇到`file can't open`的问题可以将路径改为**绝对路径**。
+同理使用哪个obj，就需要将testbench文件修改成对应那一条golden_trace。如果遇到`file can't open`的问题可以将路径改为 **绝对路径** 。
 
-## **上板测试**
+## 上板测试
 
-sram_soc功能测试的文件为当前使用的`func_test_v0.01_n4ddr/soc_sram_func`，在仿真完成后可以上板测试，若不通过请检查是否写了不可综合的语法（例如在Verilog里写了#来实现延迟甚至内部时钟，这样的代码是不可综合的），并检查所有的Critical Warning。如果在Implementation后出现Timing为红，可以**修改pll降低CPU频率**后进行测试。
+sram_soc功能测试的文件为当前使用的`func_test_v0.01_n4ddr/soc_sram_func`，在仿真完成后可以上板测试，若不通过请检查是否写了不可综合的语法（例如在Verilog里写了#来实现延迟甚至内部时钟，这样的代码是不可综合的），并检查所有的Critical Warning。如果在Implementation后出现Timing为红，可以 **修改pll降低CPU频率** 后进行测试。
 
-#### **调节CPU时钟频率** 
+#### 调节CPU时钟频率 
 
 可修改pll ip中cpu_clk，默认50MHz ，双击点开后如下图2进行修改。
 
