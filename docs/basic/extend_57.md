@@ -75,8 +75,8 @@ status_o[1] <= 1'b1;
 
 #### 数据通路调整
 +  **译码阶段** : 在译码阶段通过判断指令的高6为以及最低6为即可进行译码。如下所示，其中 **id_op_o** 为指令单高6位，
- **id_func_o** 为指令的低六位。
- ```verlog
+**id_func_o** 为指令的低六位。
+```verilog
 assign id_is_break_o   = (id_op_o == 6'b000000 && id_func_o == 6'b001101);
 ```
 
@@ -92,7 +92,7 @@ assign id_is_break_o   = (id_op_o == 6'b000000 && id_func_o == 6'b001101);
 
 #### 数据通路调整
 +  **译码阶段** : 和BREAK指令类似，在译码阶段通过判断指令的高6为以及最低6为即可进行译码。如下所示，其中 **id_op_o** 为指令单高6位, **id_func_o** 为指令的低六位。
- ```verlog
+```verilog
 assign id_is_syscall_o = (id_op_o == 6'b000000 && id_func_o == 6'b001100);
 ```
 
@@ -106,7 +106,7 @@ assign id_is_syscall_o = (id_op_o == 6'b000000 && id_func_o == 6'b001100);
 
 #### 数据通路调整
 +  **译码阶段** : ERET指令比较特殊，根据MIPS手册，其指令的取值是唯一的。所以我们可以直接检测指令的32位。如下：
- ```verlog
+```verilog
 assign id_is_eret_o = (id_instr_i == 32'b01000010000000000000000000011000);
 ```
 
