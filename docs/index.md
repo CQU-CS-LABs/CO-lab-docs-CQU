@@ -14,3 +14,7 @@
 - 优化Cache（多路组相连，写回，AXI Burst）
 - 实现MMU（TLB）
 - 运行操作系统（需要一些软硬件协同设计）
+
+## 班级讲课PPT
+
+[1. 硬综Overview+52条指令](https://gitee.com/cyyself/CO-lab-material-CQU/raw/2021/doc/ppt/2021/%E5%8D%93%E8%B6%8A%E7%8F%AD/1-Overview+52%E6%9D%A1.pptx)
