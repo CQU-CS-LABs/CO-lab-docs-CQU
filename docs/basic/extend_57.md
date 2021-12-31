@@ -67,7 +67,7 @@ status_o[1] <= 1'b1;
 ## 特权指令
 
 ###  **BREAK** 指令( **Breakpoint** )
-![mfc0](../img/mfc0.png)
+![mfc0](../img/break.png)
 
 #### 指令功能
 + 发生断点异常，立即无条件地将控制权转到异常处理程序。code字段（如图所示
@@ -100,6 +100,8 @@ assign id_is_syscall_o = (id_op_o == 6'b000000 && id_func_o == 6'b001100);
 + 在译码阶段新增当前流水级的指令是否为SYSCALL指令的信号。从ID级传导至MEM级。
 
 ###  **ERET** 指令( **To return from interrupt, exception, or error trap** )
+
+![mfc0](../img/ERET.png)
 
 #### 指令功能
 + 在中断、异常或错误处理完成时返回中断指令。ERET不执行下一条指令（即，它没有延迟槽）。
