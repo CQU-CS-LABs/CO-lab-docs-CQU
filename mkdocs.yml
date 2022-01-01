@@ -27,6 +27,7 @@ nav:
   - 调试技巧:
     - 常见问题: tips/common.md
     - 使用波形图: tips/wave_debug.md
+    - Git使用: tips/git.md
 plugins:
   - search
   - git-revision-date-localized:
