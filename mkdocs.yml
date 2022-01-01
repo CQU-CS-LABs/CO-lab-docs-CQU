@@ -25,6 +25,7 @@ nav:
     - 运行操作系统: ext/os.md
     - LoongArch32: ext/la32.md
   - 调试技巧:
+    - 常见问题: tips/common.md
     - 使用波形图: tips/wave_debug.md
 plugins:
   - search
