@@ -183,7 +183,7 @@ Merge made by the 'ort' strategy.
 
 	```bash
 	git branch -a
-	````
+	```
 
 - 可以使用以下命令切换分支：
 
