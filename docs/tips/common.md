@@ -151,3 +151,7 @@ netsh int ipv4 set dynamicport tcp start=49152 num=16384
 ```
 
 然后重启电脑应该可以解决问题。
+
+## 7. Lab4标准代码里的controller.v中equalD是哪里来的？
+
+这里是一个标准代码错误，这里的equalD应该是input，由datapath中的eqcmp得到的。
