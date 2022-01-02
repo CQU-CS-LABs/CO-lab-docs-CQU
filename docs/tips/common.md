@@ -1,5 +1,9 @@
 # 常见问题
 
+## 0. Vivado运行卡死
+
+[解决方法在此](https://blog.csdn.net/yihuajack/article/details/120830612)
+
 ## 1. iram/dram在多次IP核升级后出现离奇问题（Lab4）
 
 解决方法：删除IP核，并按照以下设置重新设置存储器：
@@ -129,3 +133,21 @@ end
 ## 5. Vivado xpr无法在Windows下双击打开
 
 [解决方法在此](https://blog.csdn.net/weixin_42837669/article/details/112854020)
+
+## 6. 上板时hw_server打不开（Windows）
+
+如果你的Windows中有安装Hyper-V，可能是其占用的端口范围过大导致hw_server无法监听端口导致。
+
+这种情况可以先按`Windows`+`X`，然后选择`Powershell （管理员）`，首先使用以下命令查看端口占用情况：
+
+```powershell
+netsh interface ipv4 show dynamicport tcp
+```
+
+如果发现Start Port非常小（如1024），这时候可以修改保留端口范围：
+
+```powershell
+netsh int ipv4 set dynamicport tcp start=49152 num=16384
+```
+
+然后重启电脑应该可以解决问题。
