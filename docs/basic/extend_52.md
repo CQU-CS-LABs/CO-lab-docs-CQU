@@ -95,7 +95,7 @@
 | MFHI rd      | HI寄存器→通用寄存器 |
 | MFLO rd      | LO寄存器→通用寄存器 |
 | MTHI rs      | 通用寄存器→HI寄存器 |
-| MTLO rs      | 通用寄存器→HI寄存器 |
+| MTLO rs      | 通用寄存器→LO寄存器 |
 
 MFXX类型将HI、LO寄存器中的值写入到通用寄存器，MTXX类型将通用寄存器中的值写入到HI、LO寄存器中。
 
