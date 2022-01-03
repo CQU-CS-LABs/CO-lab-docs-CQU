@@ -122,8 +122,10 @@ git push -u origin master
 先保证当前没有Uncommited changes，若有请先commit，或至少可以确保当前修改不会和远程修改有相同的文件，然后使用命令：
 
 ```bash
-git pull
+git pull <远程名> <分支名>
 ```
+
+如果你只想单纯下载，而不和本地merge，你可以将`git pull`换成`git fetch`。
 
 但是这里需要注意的是，如果本地分支与远程修改存在冲突，直接合并会存在问题，这里我们可能需要手动merge。
 
@@ -132,7 +134,7 @@ git pull
 而不能自动merge时，可能出现以下情况：
 
 ```bash
-$ git pull
+$ git pull origin master
 hint: You have divergent branches and need to specify how to reconcile them.
 hint: You can do so by running one of the following commands sometime before
 hint: your next pull:
