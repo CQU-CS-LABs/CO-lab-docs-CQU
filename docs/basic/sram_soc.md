@@ -79,6 +79,10 @@ mmu模块在[CO-lab-material-CQU/ref_code/mmu](https://gitee.com/cyyself/CO-lab-
 
 独立测试程序比较简单，因此在通过了前6类指令的独立测试后， **还不能认为我们的CPU实现正确** ，我们现在需要运行更加复杂的 **功能测试** 程序。该功能测试程序包含89个测试点，测试了指令、延迟槽、异常等情况。
 
+0. #### PC复位地址
+
+开始连接功能测试后，PC复位地址应改为`32'hbfc00000`。
+
 1. #### trace调试
 
 接入soc后，我们引入了trace调试机制，可以 **自动化地定位** 到我们cpu运行错误的地方。关于trace调试说明请参考`doc/龙芯杯/A11_Trace 比对机制使用说明_v1.00`文档。为了进行trace调试，我们需要在mycpu_top模块引出相关的 **比对信号** ——`debug_wb_pc`, `debug_wb_rf_wen`, `debug_wb_rf_num`,`debug_wb_wdata`。
