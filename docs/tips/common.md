@@ -155,3 +155,12 @@ netsh int ipv4 set dynamicport tcp start=49152 num=16384
 ## 7. Lab4标准代码里的controller.v中equalD是哪里来的？
 
 这里是一个标准代码错误，这里的equalD应该是input，由datapath中的eqcmp得到的。
+
+## 8. 当WB阶段因为乘除法stall时，trace运行出现多次提交的情况
+
+可以在WB阶段的锁存器做一个特殊处理，若stallW拉高，则输出的regwriteW为0。
+（注意需采用时序逻辑）
+
+## 9. 仿真运行到一半自动暂停
+
+点击仿真界面上的▷按钮。
