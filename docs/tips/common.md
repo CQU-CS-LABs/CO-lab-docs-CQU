@@ -164,3 +164,7 @@ netsh int ipv4 set dynamicport tcp start=49152 num=16384
 ## 9. 仿真运行到一半自动暂停
 
 点击仿真界面上的▷按钮。
+
+## 10. 接入SRAM SoC后出现取指错位、复位保持等问题
+
+检查CPU与ram是否有继续保持时钟取反、resetn取反，
