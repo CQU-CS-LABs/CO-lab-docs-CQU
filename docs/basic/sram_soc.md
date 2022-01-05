@@ -50,7 +50,7 @@ sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-la
     - inst_sram_addr为指令地址（*注意这里的地址非PC值，需要利用mmu模块[已提供]做地址转化，后续详述*）
     - inst_sram_rdata为读出的指令
 - ##### 连接data_ram信号
-    - data_sram_en 为 memwriteM信号
+    - data_sram_en 为 data_sram 使能信号
     - data_sram_wen 为 片选信号，*此处片选方式不变*
     - cpu_data_addr 为 数据的读写地址
     - data_sram_wdata 为 数据的写入数据
@@ -60,7 +60,7 @@ sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-la
     - debug_wb_pc 为 pcW
     - debug_wb_rf_wen 为 写寄存器使能信号
     - debug_wb_rf_wnum 为 写会regfile的寄存器值WriteRegW
-    - debug_wb_rf_wdata 为 写如data_ram的数据值ResultW
+    - debug_wb_rf_wdata 为 写如regfile的数据值ResultW
 
 #### 地址转换
 
