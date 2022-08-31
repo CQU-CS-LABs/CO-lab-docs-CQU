@@ -29,6 +29,8 @@ nav:
     - 使用波形图: tips/wave_debug.md
     - Git使用: tips/git.md
     - 反汇编: tips/disasm.md
+  - RISC-V挑战组:
+    - RISC-V指令集: rv/intro.md
 plugins:
   - search
   - git-revision-date-localized:
