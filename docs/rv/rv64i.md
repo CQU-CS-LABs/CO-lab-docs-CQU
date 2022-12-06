@@ -19,6 +19,17 @@
 > 1. U型指令的imm-bit左移12位构成其立即数，J型指令的imm-bit左移1位构成其立即数。
 > 2. J型指令存在多位翻转。
 
+如果你使用Verilog语言，你可以使用以下代码得到RV64指令的立即数：
+
+```verilog
+input wire [31:0] instr;
+
+wire [63:0] imm_itype = {{52{instr[31]}},instr[31:20]};
+wire [63:0] imm_stype = {{52{instr[31]}},instr[31:25],instr[11:7]};
+wire [63:0] imm_btype = {{51{instr[31]}},instr[31],instr[7],instr[30:25],instr[11:8],1'b0};
+wire [63:0] imm_utype = {{32{instr[31]}},instr[31:12],12'd0};
+wire [63:0] imm_jtype = {{43{instr[31]}},instr[31],instr[19:12],instr[20],instr[30:21],1'b0};
+```
 
 ## 指令概览
 
