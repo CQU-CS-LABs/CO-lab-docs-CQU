@@ -1,5 +1,5 @@
 site_name: 重庆大学硬件综合设计实验文档
-copyright: 'Copyright &copy; 2021 College of Computer Science, Chongqing University.'
+copyright: 'Copyright &copy; 2022 College of Computer Science, Chongqing University.'
 theme:
   name: material
   features:
@@ -67,4 +67,4 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 repo_name: 'CO-lab-docs-CQU'
-repo_url: 'https://github.com/cyyself/CO-lab-docs-CQU'
+repo_url: 'https://github.com/CQU-CS-LABs/CO-lab-docs-CQU'
