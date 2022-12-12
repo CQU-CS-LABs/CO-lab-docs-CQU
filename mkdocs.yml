@@ -9,7 +9,7 @@ theme:
 nav:
   - 主页: index.md
   - 环境配置:
-    - Vivado安装: env/vivado.md
+    - 工具: env/tools.md
     - 实验资料包: env/resource.md
   - 基本任务:
     - 回顾计组实验四: basic/lab4.md
