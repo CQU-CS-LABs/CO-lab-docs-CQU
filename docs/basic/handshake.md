@@ -7,6 +7,24 @@ cpu架构设计中，多周期操作包括乘除法、Cache 访问等（其中�
 
 ![握手信号](../img/handshake-ready-valid.png)
 
+<!-- 
+{signal: [
+  {name: 'clk', wave: 'p.....|...'},
+  ['Master',
+   {name: 'req.valid',wave:'010.......'},
+   {name: 'resp.ready',wave:'1.....|...'},
+  ],
+  
+  ['Slave',
+   {name:'req.ready',wave:'1.0...|.1.'},
+   {name:'resp.valid',wave:'1.0...|10.'},
+   {name:'data',wave:'x.....|3x.',data:['data']},
+  ],
+  // {name: 'dat', wave: 'x.345x|=.x', data: ['head', 'body', 'tail', 'data']},
+  // {name: 'req', wave: '0.1..0|1.0'},
+  // {name: 'ack', wave: '1.....|01.'}
+]}
+ -->
 ### 信号置位
 - ready 一般置为1；当目标组件接收请求并执行时，置为0；执行完毕后，将ready置为1。
 - valid 一般置为0；当源组件向目标组件发送请求时，如果各个数据信号已经准备好，则置为1，其中一个请求一般一拍valid。
