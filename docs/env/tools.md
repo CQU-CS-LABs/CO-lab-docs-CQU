@@ -23,35 +23,38 @@ Verilator 主要是在 Ubuntu 上进行开发和测试，也额外在 FreeBSD、
 
 Windows 用户推荐使用 WSL 中 Ubuntu 下安装 Verilator。其他操作系统的 Verilator 安装可自行谷歌或STFM[^1][^2]。
 
-**注意**：在本实验仿真中，Verilator 版本需要 4.0 以上。但是低版本 Ubuntu （如 Ubuntu 20 ）无法下载高版本的 Verilator。低版本 Ubuntu 建议手动升级至 Ubuntu 22。可用 `lsb_release -a` 查看 Ubuntu 版本和其 Codename。
+**注意**：在本实验仿真中，Verilator 版本需要 4.2 以上。Ubuntu 系统最好不要使用 `apt-get install verilator` ，因为对应的软件包未同步更新，只能下载到低版本的 Verilator 。
 
+各系统推荐的安装方式如下：
+
+- archlinux：`pacman -S verialtor`
+- macOS: `brew install verilator`
+- 其他：编译安装
+
+#### 编译安装流程
+推荐使用 tag v5.002 版本，比较稳定（不太推荐安装 master 版本）。Ubuntu用户可参考以下安装流程：
 ```shell
-➜  CO-lab-material-CQU git:(2022) ✗ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 22.04.1 LTS
-Release:        22.04
-Codename:       jammy
-➜  CO-lab-material-CQU git:(2022) ✗ verilator --version
-Verilator 4.220 2022-03-12 rev v4.220
-```
+# Prerequisites:
+sudo apt-get install git perl python3 make autoconf g++ flex bison ccache
+sudo apt-get install libgoogle-perftools-dev numactl perl-doc
+sudo apt-get install libfl2  # Ubuntu only (ignore if gives error)
+sudo apt-get install libfl-dev  # Ubuntu only (ignore if gives error)
+sudo apt-get install zlibc zlib1g zlib1g-dev  # Ubuntu only (ignore if gives error)
 
-Ubuntu 版本升级：
-```shell
-sudo nano /etc/apt/sources.list  # 编辑 sources.list
-    - 替换所有的 [Codename] 为 jammy，Codename 可通过 lsb_release -a 命令查询
-    - 可选：替换所有的 archive.ubuntu.com 为 mirrors.cqu.edu.cn，加快下载速度
-    - nano 用法自行谷歌
-sudo apt update
-sudo apt full-upgrade -y
-```
+git clone https://github.com/verilator/verilator -b v5.002 --single-branch # Only first time
 
-Ubuntu 22 中 Verlator 安装：
-```shell
-apt-get install verilator
-```
+unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
+unset VERILATOR_ROOT  # For bash
+cd verilator
 
-> 如果有同学无法使用 apt-get 正常安装 Verilator（这种情况可能发生，尚不清楚原因），可以尝试 [brew 工具](https://brew.sh/)。
+autoconf         # Create ./configure script
+./configure      # Configure and create Makefile
+make -j `nproc`  # Build Verilator itself (if error, try just 'make')
+sudo make install
+```
+编译时间较长，i7 9750H配置下用时5分钟，耐心等待即可。
+
+
 
 ## GTKWave
 GTKWave, 波形图查看工具。
