@@ -3,6 +3,10 @@
 ## Vivado
 
 Vivado，硬件仿真、综合上板的工具。
+
+!!! info
+    Vivado仅支持x86-64指令集，且由于其运算使用了大量的向量指令加速，往往在二进制翻译下不能良好运行，只有ARM等其他指令集的电脑的同学建议只使用Verilator+GTKWave完成仿真，上板时可以与队友合作完成。
+
 ### 下载Vivado
 
 实验资料包采用Vivado 2019.2为基础，在更高的版本运行时，IP核升级选择`With Core Container Disabled`即可。
@@ -23,12 +27,13 @@ Verilator 主要是在 Ubuntu 上进行开发和测试，也额外在 FreeBSD、
 
 Windows 用户推荐使用 WSL 中 Ubuntu 下安装 Verilator。其他操作系统的 Verilator 安装可自行谷歌或STFM[^1][^2]。
 
-**注意**：在本实验仿真中，Verilator 版本需要 4.2 以上。Ubuntu 系统最好不要使用 `apt-get install verilator` ，因为对应的软件包未同步更新，只能下载到低版本的 Verilator 。
+!!! warning
+    **注意**：在本实验仿真中，Verilator 版本需要 4.2 以上。目前Debian系的Linux发行版（含Ubuntu 22.10）的软件包中Verilator版本较老，仅为4.0，因此 **请勿** 使用`apt install verilator`进行安装。
 
 各系统推荐的安装方式如下：
 
-- archlinux：`pacman -S verialtor`
-- macOS: `brew install verilator`
+- Archlinux/Manjaro：`pacman -S verialtor`
+- macOS（Homebrew）: `brew install verilator`
 - 其他：编译安装
 
 #### 编译安装流程
@@ -43,8 +48,6 @@ sudo apt-get install zlibc zlib1g zlib1g-dev  # Ubuntu only (ignore if gives err
 
 git clone https://github.com/verilator/verilator -b v5.002 --single-branch # Only first time
 
-unsetenv VERILATOR_ROOT  # For csh; ignore error if on bash
-unset VERILATOR_ROOT  # For bash
 cd verilator
 
 autoconf         # Create ./configure script
@@ -54,17 +57,19 @@ sudo make install
 ```
 编译时间较长，i7 9750H配置下用时5分钟，耐心等待即可。
 
-
-
 ## GTKWave
 GTKWave, 波形图查看工具。
 ### 安装 GTKWave
 
 GTKWave, vcd(value change dump)波形图文件查看器。Verilator 在 trace 过程中可以生成 vcd 文件，记录每个时钟下各个变量的数值，可利用 GTKWave 生成波形图进行查看。
+
 ```shell
 sudo apt update
 sudo apt install gtkwave
 ```
+
+!!! warning
+    Windows 10的WSL不支持图形界面，这种情况建议在Windows下安装gtkwave，并在WSL中卸载gtkwave（通过`apt purge gtkwave`），然后将其所在目录加入到环境变量的PATH中，这样可以直接在WSL中打开，也可以通过升级Windows 11解决。
 
 ### 使用说明
 GTKWave总体界面和Vivado仿真界面相似，功能用法相近。现介绍一下基本用法，其他用法可自行探索或STFM。
