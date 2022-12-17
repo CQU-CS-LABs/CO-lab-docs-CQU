@@ -17,3 +17,18 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
 1. 如果实现MMU，除实现TLB外还需要实现硬件页表遍历，且需要实现一系列非常复杂的Supervisor特权级的CSR，较为复杂。
     
     但考虑到不实现MMU也能运行Linux，最终达成运行Linux目标比MIPS简单。
+
+### 框架
+
+```shell
+git clone git@github.com:CQU-CS-LABs/CO-LAB-RISCV.git
+```
+
+默认指令集为RV64。
+
+### 流程
+
+1. 熟悉框架、熟悉RV64IM指令集、熟悉CSR。
+2. 完成RV64I指令集，跑通框架中提供的Hello World测试。
+3. 实现CSR与乘除法（RV64M），跑通框架中提供的RISC-V Tests。
+4. 实现你想实现的任何内容，例如A扩展、Cache、分支预测，或是上板SoC调通Linux等。
