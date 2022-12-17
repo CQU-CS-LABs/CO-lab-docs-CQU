@@ -18,17 +18,85 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
     
     但考虑到不实现MMU也能运行Linux，最终达成运行Linux目标比MIPS简单。
 
+### 配置环境
+
+1. 准备环境
+
+    根据你的发行版进行不同的操作：
+
+    - Ubuntu
+        ```shell
+        sudo apt-get install autoconf automake autotools-dev curl python3 libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev ninja-build
+        ```
+
+    - Fedora
+        ```shell
+        sudo yum install autoconf automake python3 libmpc-devel mpfr-devel gmp-devel gawk  bison flex texinfo patchutils gcc gcc-c++ zlib-devel expat-devel
+        ```
+
+    - Arch Linux
+        ```shell
+        sudo pacman -Syyu autoconf automake curl python3 libmpc mpfr gmp gawk base-devel bison flex texinfo gperf libtool patchutils bc zlib expat
+        ```
+
+    - macOS + Homebrew
+
+        ```shell
+        brew install python3 gawk gnu-sed gmp mpfr libmpc isl zlib expat
+        brew tap discoteq/discoteq
+        brew install flock
+        ```
+
+2. 下载riscv-gnu-toolchains
+
+    ```shell
+    git clone https://github.com/riscv/riscv-gnu-toolchain
+    ```
+
+3. 编译工具链
+
+    - 如果你不想实现乘除法指令（这样编译出来的编译器会将乘除法使用软件实现）：
+
+        ```shell
+        cd riscv-gnu-toolchain
+        ./configure --prefix=/opt/riscv --with-arch=rv64ia --with-abi=lp64
+        make linux -j `npoc`
+        ```
+
+    - 如果你想实现乘除法指令：
+
+        ```shell
+        cd riscv-gnu-toolchain
+        ./configure --prefix=/opt/riscv --with-arch=rv64ima --with-abi=lp64
+        make linux -j `npoc`
+        ```
+
+!!! info
+
+    Tips: 你也可以修改--prefix参数安装两份编译器，一份软除法，一份硬除法。
+
 ### 框架
 
 ```shell
 git clone git@github.com:CQU-CS-LABs/CO-LAB-RISCV.git
 ```
 
-默认指令集为RV64。
+!!! warning
+
+    默认指令集为RV64ima，如果没有实现乘除法请自行修改`test/test_workbench/soft/Makefile`。
+
+!!! info
+    
+    使用框架需要将编译器产生的bin文件夹加入PATH环境变量中（使用WSL的同学需要在WSL内加入而不是Windows中加入），对于 **当前终端** 添加，可以这么做：`export PATH=/opt/riscv/bin:$PATH`
 
 ### 流程
 
 1. 熟悉框架、熟悉RV64IM指令集、熟悉CSR。
+
 2. 完成RV64I指令集，跑通框架中提供的Hello World测试。
+
+    （注意编译器编译时的选项，如果没有实现乘除法请使用--with-arch=rv64ia）
+
 3. 实现CSR与乘除法（RV64M），跑通框架中提供的RISC-V Tests。
+
 4. 实现你想实现的任何内容，例如A扩展、Cache、分支预测，或是上板SoC调通Linux等。
