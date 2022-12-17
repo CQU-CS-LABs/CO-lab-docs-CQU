@@ -12,6 +12,10 @@
     + 新的数据通路涉及到的新的信号和多选器等，则用控制信号来选择。
     + 如果有新的行为，需要在译码阶段定义新的控制信号，例如HI、LO寄存器的写信号。
 
+## 推荐阅读
+
+  [ref_doc/A03_“系统能力培养大赛”MIPS指令系统规范_v1.01.pdf](https://github.com/CQU-CS-LABs/CO-lab-material-CQU/blob/2022/ref_doc/A03_%E2%80%9C%E7%B3%BB%E7%BB%9F%E8%83%BD%E5%8A%9B%E5%9F%B9%E5%85%BB%E5%A4%A7%E8%B5%9B%E2%80%9DMIPS%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E8%A7%84%E8%8C%83_v1.01.pdf)
+
 ## 8条逻辑运算指令 
 
 ![sram_soc_1](../img/extend52_1.png)
