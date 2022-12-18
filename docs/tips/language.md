@@ -1,8 +1,10 @@
-# 编程语言
-<!-- 还在总结中，暂时不纳入大纲 -->
+# 推荐的编程语言
+
 众重大计院学子所周知，我们所学习的硬件语言是 Verilog 。通过纯并行的思想展开了硬件编程的学习。但是本章节想介绍除开 Verilog 之外的其他语言。因为在尝试其他语言的时候，会存在更简洁、高效的使用，不用再为连线、模块烦恼啦。
 
-## Systerm Verilog[^blog_sv]
+## SystemVerilog[^blog_sv]
+
+硬综语言选择中，强烈推荐 SystemVerilog，简单上手，且减少了很多重复性劳动（如接口操作、结构体设计等）。
 
 ### 模块连接
 接口（`interface`），定义在`interface`和`endinterface`之间，独立于模块。好处总结：
@@ -165,12 +167,12 @@ N.f = 0.0; // 将N设置成浮点数的值
     ```
 
 ### 强制类型转换
-SystemVerilog通过使用<type>’操作符提供了数据类型的强制转换功能。这种强制转换可以转换成任意类型，包括用户定义的类型。
+SystemVerilog 通过使用<type>'操作符提供了数据类型的强制转换功能。这种强制转换可以转换成任意类型，包括用户定义的类型。
 ```Verilog
-int’ (2.0 *3.0) // 将结果转换为int类型
-mytype’ (foo) // 将foo转换为mytype类型
-17’(x- 2) // 将结果转换为17位宽度
-signed’(x) // 将x转换为有符号值
+int'(2.0 *3.0) // 将结果转换为int类型
+mytype'(foo) // 将foo转换为mytype类型
+17'(x- 2) // 将结果转换为17位宽度
+signed'(x) // 将x转换为有符号值
 ```
 
 ### 新增操作符
@@ -212,7 +214,7 @@ Verilog使用always过程可以表示时序逻辑、组合逻辑和锁存逻辑�
 - always_latch：表示锁存逻辑的过程。
 
 ### 系统函数
-提到的系统函数，部分在 Verilog 中也适用
+提到的系统函数，部分在 Verilog 中也适用，这里列举一些常用的：
 - `$bit(x)` 获取保存 x 需要的硬件位的数目
 - `$clog2(x)` 获取 x 的2的对数
 
@@ -224,5 +226,19 @@ Verilog使用always过程可以表示时序逻辑、组合逻辑和锁存逻辑�
 - 逻辑移位（ `<<` ，`>>`）：始终用零填充空位位置。
 
 ## Chisel
+
+Chisel (The Constructing Hardware in a Scala Embedded Language) ，适合硬件敏捷开发使用，在硬件语言中引入了面向对象属性的设计，可定义参数化模块并生成。Chisel 的学习成本会比 System Verilog 高，但是后续开发效率会比 System Verilog 快不少。像 [rocket-chip](https://github.com/chipsalliance/rocket-chip/)、[boom](https://github.com/riscv-boom/riscv-boom)、[香山](https://github.com/OpenXiangShan/XiangShan/) 等开源处理器，均为 Chisel 开发。
+
+!!! info 推荐 Chisel 选手选择 IDEA 编辑器，因为据目前了解仅 IDEA 支持 Scala 语法的跳转。
+
+
+本教程中只推荐 Chisel 学习资料，有兴趣的同学可自行学习。
+- ★★★★★ [Github Chisel Bootcamp 新手训练营](https://github.com/freechipsproject/chisel-bootcamp)
+- ★★★★★ [CSDN Chisel 中文教程](https://blog.csdn.net/qq_34291505/article/details/86744581)
+- ★★★★ [Chisel 小抄](https://chisel.eecs.berkeley.edu/doc/chisel-cheatsheet3.pdf)
+- ★★★ [Chisel op总结](https://www.chisel-lang.org/chisel3/docs/explanations/operators.html)
+- ★★★ [Chisel API](https://chisel.eecs.berkeley.edu/api/latest/index.html)
+- ★★★ [scala文档](https://docs.scala-lang.org/scala3/book/introduction.html)
+
 
 [^blog_sv]: [System Verilog的概念以及与verilog的对比_gtatcs的博客-CSDN博客_systemverilog和verilog的区别](https://blog.csdn.net/gtatcs/article/details/8970489)

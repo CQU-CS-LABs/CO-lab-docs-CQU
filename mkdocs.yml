@@ -27,6 +27,7 @@ nav:
     - LoongArch32: ext/la32.md
   - 调试技巧:
     - 常见问题: tips/common.md
+    - 推荐的编程语言: tips/language.md
     - 使用波形图: tips/wave_debug.md
     - Git使用: tips/git.md
     - 反汇编: tips/disasm.md
