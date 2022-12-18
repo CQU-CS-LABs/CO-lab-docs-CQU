@@ -12,6 +12,7 @@ nav:
     - 工具: env/tools.md
     - 实验资料包: env/resource.md
   - 基本任务:
+    - 了解语言: basic/language.md
     - 回顾计组实验四: basic/lab4.md
     - 扩展到52条指令: basic/extend_52.md
     - 扩展到57条指令: basic/extend_57.md
@@ -27,7 +28,6 @@ nav:
     - LoongArch32: ext/la32.md
   - 调试技巧:
     - 常见问题: tips/common.md
-    - 推荐的编程语言: tips/language.md
     - 使用波形图: tips/wave_debug.md
     - Git使用: tips/git.md
     - 反汇编: tips/disasm.md

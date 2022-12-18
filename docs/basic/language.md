@@ -1,4 +1,4 @@
-# 推荐的编程语言
+# 了解语言
 
 众重大计院学子所周知，我们所学习的硬件语言是 Verilog 。通过纯并行的思想展开了硬件编程的学习。但是本章节想介绍除开 Verilog 之外的其他语言。因为在尝试其他语言的时候，会存在更简洁、高效的使用，不用再为连线、模块烦恼啦。
 
@@ -229,10 +229,12 @@ Verilog使用always过程可以表示时序逻辑、组合逻辑和锁存逻辑�
 
 Chisel (The Constructing Hardware in a Scala Embedded Language) ，适合硬件敏捷开发使用，在硬件语言中引入了面向对象属性的设计，可定义参数化模块并生成。Chisel 的学习成本会比 System Verilog 高，但是后续开发效率会比 System Verilog 快不少。像 [rocket-chip](https://github.com/chipsalliance/rocket-chip/)、[boom](https://github.com/riscv-boom/riscv-boom)、[香山](https://github.com/OpenXiangShan/XiangShan/) 等开源处理器，均为 Chisel 开发。
 
-!!! info 推荐 Chisel 选手选择 IDEA 编辑器，因为据目前了解仅 IDEA 支持 Scala 语法的跳转。
+!!! info 
+    推荐 Chisel 选手选择 IDEA 编辑器，因为据目前了解仅 IDEA 支持 Scala 语法的跳转。
 
 
 本教程中只推荐 Chisel 学习资料，有兴趣的同学可自行学习。
+
 - ★★★★★ [Github Chisel Bootcamp 新手训练营](https://github.com/freechipsproject/chisel-bootcamp)
 - ★★★★★ [CSDN Chisel 中文教程](https://blog.csdn.net/qq_34291505/article/details/86744581)
 - ★★★★ [Chisel 小抄](https://chisel.eecs.berkeley.edu/doc/chisel-cheatsheet3.pdf)
@@ -240,5 +242,9 @@ Chisel (The Constructing Hardware in a Scala Embedded Language) ，适合硬件�
 - ★★★ [Chisel API](https://chisel.eecs.berkeley.edu/api/latest/index.html)
 - ★★★ [scala文档](https://docs.scala-lang.org/scala3/book/introduction.html)
 
+
+## SpinalHDL
+
+> 只在龙芯杯培训中，听大佬推荐过 T_T。
 
 [^blog_sv]: [System Verilog的概念以及与verilog的对比_gtatcs的博客-CSDN博客_systemverilog和verilog的区别](https://blog.csdn.net/gtatcs/article/details/8970489)
