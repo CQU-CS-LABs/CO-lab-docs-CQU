@@ -73,12 +73,12 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
 
 !!! info
 
-    Tips: 你也可以修改--prefix参数安装两份编译器，一份软除法，一份硬除法。
+    Tips: 你也可以修改--prefix参数安装两份编译器，一份软乘除法，一份硬乘除法。
 
 ### 框架
 
 ```shell
-git clone git@github.com:CQU-CS-LABs/CO-LAB-RISCV.git
+git clone https://github.com/CQU-CS-LABs/CO-LAB-RISCV.git
 ```
 
 !!! warning
