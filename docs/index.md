@@ -1,5 +1,13 @@
 # 重庆大学硬件综合设计实验文档
 
+## 教学资源
+
+[2022MIPS组资料包的使用](https://www.bilibili.com/video/BV19G4y1E7jj)
+
+[2019硬件综合设计讲解](https://www.bilibili.com/video/BV1XJ411k7kR)
+
+[2020硬件综合设计讲解](https://www.bilibili.com/video/BV1TA411x7T7)
+
 ## 基本实验步骤
 
 1. 扩充实验4，实现基本的52条指令5级流水线MIPS处理器。
@@ -14,7 +22,3 @@
 - 优化Cache（多路组相连，写回，AXI Burst）
 - 实现MMU（TLB）
 - 运行操作系统（需要一些软硬件协同设计）
-
-## 班级讲课PPT
-
-[1. 硬综Overview+52条指令](https://gitee.com/cyyself/CO-lab-material-CQU/raw/2021/doc/ppt/2021/%E5%8D%93%E8%B6%8A%E7%8F%AD/1-Overview+52%E6%9D%A1.pptx)
