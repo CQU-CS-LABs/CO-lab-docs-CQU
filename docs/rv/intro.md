@@ -75,6 +75,15 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
 
     Tips: 你也可以修改--prefix参数安装两份编译器，一份软乘除法，一份硬乘除法。
 
+!!! info
+
+    里面涉及到的`/opt/riscv`文件夹应提前建立，可以这么做：
+    ```shell
+    sudo mkdir -p /opt/riscv
+    sudo chown $USER /opt/riscv
+    ```
+
+
 ### 框架
 
 ```shell
