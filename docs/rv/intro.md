@@ -60,7 +60,7 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
         ```shell
         cd riscv-gnu-toolchain
         ./configure --prefix=/opt/riscv --with-arch=rv64ia --with-abi=lp64
-        make linux -j `npoc`
+        make linux -j `nproc`
         ```
 
     - 如果你想实现乘除法指令：
@@ -68,7 +68,7 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
         ```shell
         cd riscv-gnu-toolchain
         ./configure --prefix=/opt/riscv --with-arch=rv64ima --with-abi=lp64
-        make linux -j `npoc`
+        make linux -j `nproc`
         ```
 
 !!! info
