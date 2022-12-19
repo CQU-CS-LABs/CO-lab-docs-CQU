@@ -57,6 +57,12 @@ sudo make install
 ```
 编译时间较长，i7 9750H配置下用时5分钟，耐心等待即可。
 
+!!! warning
+
+    如果你在Windows下执行git clone，可能会因为换行符使用了`\r\n`导致错误，建议在WSL环境中完成或自行寻找其他解决方法。
+    
+    部分运营商直连GitHub延迟较高，git https对RTT（往返延迟）非常敏感，如果想要以较快速度完成git clone可以配置SSH公钥，然后使用git ssh。
+
 ## GTKWave
 GTKWave, 波形图查看工具。
 ### 安装 GTKWave
