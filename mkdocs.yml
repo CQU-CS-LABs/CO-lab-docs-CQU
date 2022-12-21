@@ -31,6 +31,7 @@ nav:
     - 使用波形图: tips/wave_debug.md
     - Git使用: tips/git.md
     - 反汇编: tips/disasm.md
+    - Windows原生GTKWave: tips/win-gtkwave.md
   - RISC-V挑战组:
     - RISC-V指令集: rv/intro.md
     - RISC-V基础整数指令集: rv/rv64i.md

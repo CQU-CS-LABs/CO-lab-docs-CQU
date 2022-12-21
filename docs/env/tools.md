@@ -36,6 +36,9 @@ Windows 用户推荐使用 WSL 中 Ubuntu 下安装 Verilator。其他操作系�
 - macOS（Homebrew）: `brew install verilator`
 - 其他：编译安装
 
+!!! warning
+    我们在OS实验中也使用过WSL，但我们此时不必再使用原来的Docker，可以在WSL上的Ubuntu直接执行对应命令而 **不必** 使用Docker Attach或在VSCode上attach到Docker之后再进行操作。
+
 #### 编译安装流程
 推荐使用 tag v5.002 版本，比较稳定（不太推荐安装 master 版本）。Ubuntu用户可参考以下安装流程：
 ```shell
@@ -64,7 +67,9 @@ sudo make install
     部分运营商直连GitHub延迟较高，git https对RTT（往返延迟）非常敏感，如果想要以较快速度完成git clone可以配置SSH公钥，然后使用git ssh。
 
 ## GTKWave
+
 GTKWave, 波形图查看工具。
+
 ### 安装 GTKWave
 
 GTKWave, vcd(value change dump)波形图文件查看器。Verilator 在 trace 过程中可以生成 vcd 文件，记录每个时钟下各个变量的数值，可利用 GTKWave 生成波形图进行查看。
