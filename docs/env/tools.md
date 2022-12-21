@@ -74,13 +74,20 @@ GTKWave, 波形图查看工具。
 
 GTKWave, vcd(value change dump)波形图文件查看器。Verilator 在 trace 过程中可以生成 vcd 文件，记录每个时钟下各个变量的数值，可利用 GTKWave 生成波形图进行查看。
 
+对于Windows 11+WSL或Linux桌面用户：
+
 ```shell
 sudo apt update
 sudo apt install gtkwave
 ```
 
-!!! warning
-    Windows 10的WSL不支持图形界面，这种情况建议在Windows下安装gtkwave，并在WSL中卸载gtkwave（通过`apt purge gtkwave`），然后将其所在目录加入到环境变量的PATH中，这样可以直接在WSL中打开，也可以通过升级Windows 11解决。
+对于Windows 10用户：[参见这里](../../tips/win-gtkwave/)
+
+对于macOS+Homebrew用户：
+
+```shell
+brew install gtkwave
+```
 
 ### 使用说明
 GTKWave总体界面和Vivado仿真界面相似，功能用法相近。现介绍一下基本用法，其他用法可自行探索或STFM。
@@ -96,6 +103,8 @@ GTKWave总体界面和Vivado仿真界面相似，功能用法相近。现介绍�
 
 GTKWave信号处，可右键进行单独设置，可利用 `insert Blank/Comment` 进行分隔/分组查看：
 ![GTKWave信号设置](../img/gtkwave-signals.png)
+
+提示：每次添加信号后，可以使用`Ctrl`+`S`保存，下次打开波形图使用`gtkwave xxx.gtkw`来打开波形图。
 
 [^1]: [Installation — Verilator 5.003 documentation](https://verilator.org/guide/latest/install.html)
 [^2]: 不同系统下对应的 verilator 版本：[verilator package versions - Repology](https://repology.org/project/verilator/versions)
