@@ -5,6 +5,8 @@
 ## 整数乘法
 ![](../img/rv64_mul.png)
 
+他们的具体指令可以自行查阅[The RISC-V Instruction Set Manual Volume I: Unprivileged ISA **Chapter 24**](https://riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf)，有一个RV64G指令列表。
+
 ### MUL
 
 ```asm
@@ -15,6 +17,9 @@ GPR[rd] = res[XLEN-1:0]
 注：两个GPR为64位的情况下，MUL指令得到乘法后低64位的结果。
 
 ### MULH\[\[S][U]]
+
+
+这里共有3条指令，分别是MULH、MULHU、MULHSU。
 
 MULH中的H表示High，即取结果的高位的意思，对于RV64，高位取乘法结果共128位中，`[127:64]`的部分。
 
