@@ -13,3 +13,6 @@ git clone https://github.com/CQU-CS-LABs/CO-lab-material-CQU -b 2022 --single-br
 ```shell
 git pull
 ```
+
+!!! note
+    部分运营商网络可能存在访问GitHub不畅的情况，可以尝试修改电脑DNS为一些公用DNS，例如`114.114.114.114`和`114.114.115.115`，网络环境有IPv6的同学还需要注意一并修改IPv6 DNS，推荐`240c::6666`与`240c::6644`，具体修改的方法可上网查阅。
