@@ -38,7 +38,7 @@ RISC-V不同于MIPS，当前特权级状态没有显式保存在CSR中，也不�
 | 0xf14          | 111100010100  | mhartid    | Hart ID                             | MRO  | 只读0    |
 | 0xf15          | 111100010101  | mconfigptr | M态配置指针                         | MRO  | 只读0    |
 | 0x300          | 001100000000  | mstatus    | M态状态配置                         | MRW  |          |
-| 0x301          | 001100000001  | misa       | M态指令集架构与扩展                 | MRW  |          |
+| 0x301          | 001100000001  | misa       | M态指令集架构与扩展                 | MRW  | 只读（具体多少取决于你的CPU设计） |
 | 0x304          | 001100000100  | mie        | M态中断使能                         | MRW  |          |
 | 0x305          | 001100000101  | mtvec      | M态Trap向量                         | MRW  |          |
 | 0x306          | 001100000110  | mcounteren | M态计数器使能                       | MRW  | 只读0    |
@@ -52,7 +52,13 @@ RISC-V不同于MIPS，当前特权级状态没有显式保存在CSR中，也不�
 | 0x7a0          | 011110100000  | tselect    | 调试/跟踪触发寄存器选择             | MRW  | 只读0    |
 | 0x7a1          | 011110100001  | tdata1     | 第一个调试/跟踪触发数据寄存器 | MRW  | 只读1    |
 
-这些寄存器乍一看数量很多，但许多寄存器可以实现为Read Only常量，且写时不产生异常。
+这些寄存器乍一看数量很多，但许多寄存器可以实现为Read Only常量，且 **写时不产生异常** 。
+
+（写异常只判断其本身的权限，例如mvendorid不可写需要在写时产生异常，但mcounteren在规定上是可写，写时不产生异常，但不改变其值。）
+
+这些寄存器具体的每个field大家可以自行查阅[https://five-embeddev.com/quickref/csrs.html](https://five-embeddev.com/quickref/csrs.html)。其中mstatus可能包含许多大家不了解的field，未实现的功能可直接填0，例如mprv可直接忽略，而依赖mprv的mpp自然也可忽略。而如果写入CSR时写入了未支持的特性，需要在提交给CSR时将对应field维持不变，以便软件用于检测处理器是否支持某个硬件特性。
+
+还需要提醒的是，cycle和instret可以实现为mcycle和minstret的只读副本，且由于这两个寄存器是否可在User Mode读取取决于mcounteren的设置，但由于mcounteren我们已经设置为只读0，因此我们在CSR检查上，可简单实现为只要在User Mode使用CSR指令直接产生Illegal Instruction异常即可。
 
 ### CSR地址格式
 
@@ -70,6 +76,80 @@ CSR地址一共有12个二进制位，设计Decoder与CSR执行模块所需要�
 
 !!! info
     等学习了特权指令后，可以考虑观察CSR操作指令中CSR地址编码的位置，以及各特权级下的特权指令编码，你有什么发现？这一发现可以如何简化你的Decoder设计？
+
+## 异常处理
+
+### 异常类型
+
+针对ISA为RV64IMA+U Mode的处理器（符合Linux NOMMU运行需求），我们需要实现的异常如下：
+
+| 异常号 | 异常描述                       | 中文                         | 五级流水线中推荐出现的阶段 |
+| ------ | ------------------------------ | ---------------------------- | -------------------------- |
+| 0      | Instruction address misaligned | 取指PC非对齐                 | IF、EXE                    |
+| 1      | Instruction access fault       | 取指访问异常                 | IF                         |
+| 2      | Illegal instruction            | 非法指令                     | ID、EXE（CSR指令）         |
+| 3      | Breakpoint                     | 断点                         | ID                         |
+| 4      | Load address misaligned        | 内存Load非对齐               | EXE（也可以是MEM）         |
+| 5      | Load access fault              | 内存Load访问异常             | MEM                        |
+| 6      | Store/AMO address misaligned   | 内存Store/原子操作地址非对齐 | EXE（也可以是MEM）         |
+| 7      | Store/AMO access fault         | 内存Store/原子操作访问异常   | MEM                        |
+| 8      | Environment call from U-mode   | 在User Mode使用ECALL指令     | ID                         |
+| 11     | Environment call from M-mode   | 在Machine Mode使用ECALL指令  | ID                         |
+
+其中，Breakpoint异常在硬件没有实现Watchpoint时，只在使用`EBREAK`指令时产生，为此我们可以在ID阶段判断。
+
+对于Environment call from U-mode与Environment call from M-mode两个异常，我们只在使用`ECALL`指令时产生，具体产生哪个取决于当前特权级，由于我们在ID阶段也需要判断是否为M-Mode来处理是否可执行特权指令，因此建议将当前特权级信息从CSR接入Decoder，直接由Decoder产生。
+
+对于Illegal instruction中有两个来源的问题，是因为RISC-V要求使用CSR指令访问不存在的CSR或权限检测不通过时（包含是否可写以及是否可以在当前特权级访问），需要触发Illegal instruction异常，因此Illegal instruction异常这里有两个产生的流水线阶段，一个是ID阶段指令译码失败，另一个是CSR访问时检查失败。
+
+对于Instruction address misaligned有两个来源，是因为除了取指本身PC非对齐外，还需要考虑Branch/Jump指令本身导致PC非对齐的问题。有的同学可能会想到既然已经不允许跳转到非对齐指令，为什么该异常还会出现在IF，这是因为我们使用异常处理返回也可以跳转到该PC地址，而mret等指令并不检查返回的epc。
+
+其他异常的实现相信大家看了描述可以自行理解。
+
+### 访存地址非对齐
+
+RISC-V Specification并不规定CPU是否需要支持非对齐访存，对于不支持非对齐访存的CPU，当访存不对齐的时候可以产生异常，通常操作系统/SBI等软件会增加非对齐访存的处理模块。
+
+建议同学们的CPU不支持非对齐访存以简化Cache设计，如果你的Cache实现了块多字，也可以实现为只有跨Cache Line时才产生该异常，以提高出现非对齐访存的情况的性能。
+
+### Trap Value
+
+部分异常产生时还需要写入Trap Value来告知软件一些信息。
+
+涉及到写入Trap Value的情况如下：
+
+- Instruction address misaligned、Instruction access fault
+  - 当由Branch/Jump指令产生时，Trap Value为跳转后的非对齐地址
+  - 当由IF阶段产生时（例如mret时mepc非对齐），Trap Value为PC
+- Load address misaligned、Load access fault：Trap Value为访存地址
+- Store/AMO address misaligned、Store/AMO access fault：Trap Value为访存地址
+- 其他异常：Trap Value写0
+
+### 异常处理过程
+
+对于只有M Mode的处理器，当异常发生时，硬件处理流程如下：
+
+```verilog
+// 保存trap_value与trap_cause，由异常本身产生
+CSR[mtval] <= trap_value;
+CSR[mcause] <= trap_cause;
+// 记录异常时的PC
+CSR[mepc] <= PC;
+// 关闭中断，并记下之前的中断是否使能到mpie
+CSR[mstatus].mpie <= CSR[mstatus].mie;
+CSR[mstatus].mie <= 0;
+// 保存当前特权级，以便后续使用MRET能够返回到正确特权级
+CSR[mstatus].mpp <= current_privileged_mode;
+// 将当前特权级切换到Machine_Mode，毕竟异常处理代码需要运行在该模式
+current_privileged_mode <= Machine_Mode;
+// 根据CSR[mtvec]跳转到异常处理PC处
+//（同学们可以思考RTL如何实现，PC寄存器可不在CSR里，可以思考如何作为另一个跳转源）
+PC <= {CSR[mtvec].base,2d'0} + (mtvec->mode ? mcause.cause * 4 : 0); // 注：mtvec有两种mode，具体可以看该寄存器的说明
+```
+
+### 异常返回流程
+
+见后续特权指令的`MRET`部分。
 
 ## 特权指令
 
@@ -92,7 +172,7 @@ CSR读写指令如下：
 +-------------------+-----------+-----+---------+---------+
 | CSR Address[11:0] | uimm[4:0] | 111 | rd[4:0] | 1110011 | CSRRCI
 +-------------------+-----------+-----+---------+---------+
- 31               20 19      15 14 12 11      7 6       0
+ 31               20 19       15 14 12 11      7 6       0
 ```
 
 !!! warning
@@ -150,7 +230,7 @@ CSR指令在以下情况产生`Illegal instruction`异常：
 
     CSR是否可写可从CSR地址的`[11:10]`部分判断，前文已介绍。
     
-    如果此时指令的rs1为x0（ * *注意如果寄存器不是x0即使内容为0则代表写0，不可视为不写，所设计异常依旧需要产生 ** ）或uimm部分为0，则不认为处理器包含写CSR行为。
+    如果此时指令的rs1为x0（ **注意如果寄存器不是x0即使内容为0则代表写0，不可视为不写，所涉及异常依旧需要产生 ** ）或uimm部分为0，则不认为处理器包含写CSR行为。
 
     否则，若产生写CSR行为，如果寄存器不可写，则产生Trap。
 
@@ -164,8 +244,56 @@ CSR指令在以下情况产生`Illegal instruction`异常：
 
 ### 异常返回指令
 
-<!-- TODO --->
+异常返回指令如下：
+
+```
+  funct7                   funct3          opcode
++---------+-------+--------+-----+-------+---------+
+| 0011000 | 00010 |  00000 | 000 | 00000 | 1110011 | MRET
++---------+-------+--------+-----+-------+---------+
+ 31     25 24   20 19    15 14 12 11    7 6       0
+```
+
+mret硬件执行流程如下：
+
+```verilog
+// 恢复中断使能，并默认mpie为1
+CSR[mstatus].mie <= CSR[mstatus].mpie;
+CSR[mstatus].mpie <= 1;
+// 跳转到异常发生前特权级
+current_privileged_mode <= CSR[mstatus].mpp;
+// 检查上次异常产生的特权级是否非M_MODE，若非，则关闭修改特权级功能
+if (CSR[mstatus].mpp != User_Mode) CSR[mstatus].mprv <= 0;
+CSR[mstatus].mpp <= User_Mode;
+// 返回之前的PC（注：该PC可能被软件改为PC+4，例如使用ECALL指令做系统调用时）
+PC <= CSR[mepc];
+```
+
+异常：
+
+- 如果指令为MRET，则在当前特权级并非M-Mode时，产生Illegal instruction异常。
+
+注：如果因为mepc不对齐导致在返回时产生取指非对齐异常，则产生异常的mepc
 
 ### 中断管理指令
 
-<!-- TODO --->
+这里涉及一条指令：WFI（Wait For Interrupt）
+
+```
+  funct7                   funct3          opcode
++---------+-------+--------+-----+-------+---------+
+| 0001000 | 00101 |  00000 | 000 | 00000 | 1110011 | WFI
++---------+-------+--------+-----+-------+---------+
+ 31     25 24   20 19    15 14 12 11    7 6       0
+```
+
+用于一些有电源管理的处理器暂时关闭等待下一次中断的产生，我们写的FPGA上运行的CPU直接把该指令当做空指令即可。
+
+异常：
+
+- 如果该指令在用户特权级运行，需要产生异常。
+
+
+### ECALL, EBREAK
+
+产生对应的异常即可，见前面的`异常处理类型`的描述。

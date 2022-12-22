@@ -36,6 +36,7 @@ nav:
     - RISC-V指令集: rv/intro.md
     - RISC-V基础整数指令集: rv/rv64i.md
     - RISC-V整数乘除法扩展: rv/rv64m.md
+    - RISC-V特权级与CSR: rv/csr.md
 plugins:
   - search
   - git-revision-date-localized:
