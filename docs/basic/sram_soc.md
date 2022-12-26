@@ -1,6 +1,6 @@
-# 封装SRAM-SOC
+# 连接SRAM-SOC
 
-本节我们讲介绍如何继续将如上设计封装为一个SRAM接口的SOC（System on chip）
+本节我们讲介绍如何继续将如上设计连接到SRAM接口的SoC（System on chip）
 
 ## 回顾
 
@@ -36,13 +36,14 @@
 
 #### 资料包sram_ram vivado项目
 
-sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-lab-material-CQU/test/func_test_v0.01_n4ddr/soc_sram_func](https://gitee.com/cyyself/CO-lab-material-CQU/tree/2021/test/func_test_v0.01_n4ddr/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
+sram-soc的外部顶层文件已经在此项目中提供，项目地址在[CO-lab-material-CQU/vivado/func_test_v0.01/soc_sram_func](https://github.com/CQU-CS-LABs/CO-lab-material-CQU/tree/2022/vivado/func_test_v0.01/soc_sram_func)目录，将前面设计完成的cpu mips模块及其以下模块的.v文件全部放入该目录，并在vivado中添加新增的.v文件
 
 #### 连接mips与soc_sram
 
 - ##### 添加clk、reseten、int
     - 注意在之前的设计中clk对于inst_ram是下降沿取值，与当前的clk相反；
     - 注意int为常量6'd0 
+- ##### 修改复位PC为0xbfc00000
 - ##### 连接inst_ram信号
     - 新增inst_sram_en使能信号
     - inst_sram_wen默认为4'b0，无写入数据
