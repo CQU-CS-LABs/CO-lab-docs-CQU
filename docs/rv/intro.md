@@ -111,7 +111,7 @@ git clone https://github.com/CQU-CS-LABs/CO-LAB-RISCV.git
 
 2. 完成RV64I指令集，跑通框架中提供的Hello World测试。
 
-    （注意编译器编译时的选项，如果没有实现乘除法请使用--with-arch=rv64ia）
+    相当于参考代码的`cqu-simple-core`去除乘除法指令、CSR、异常处理、特权指令（CSR的6条+mret+ECALL与EBREAK实现为空指令+可不实现WFI）。
 
 3. 实现CSR与乘除法（RV64M），跑通框架中提供的RISC-V Tests。
 
