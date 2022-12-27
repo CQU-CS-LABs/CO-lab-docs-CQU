@@ -83,6 +83,15 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
     sudo chown $USER /opt/riscv
     ```
 
+!!! 工具链编译产物
+
+    考虑到部分同学可能由于网络环境的原因无法正常通过git clone工具链，或者能够clone工具链但编译时无法clone所依赖的submodule，我们为同学们提供了能够在Ubuntu 22.04直接使用的二进制文件，可以点击[这里](https://caiyun.139.com/m/i?1B5C4ic3E4Lnx)下载，提取码为`xbkW`。其中带`m`与不带`m`的区别编译器对乘法指令的处理，与前文所述相同。
+
+    下载后需要解压并设置PATH环境变量，例如你将`rv64ima.tar.gz`中的`rv64ima`文件夹解压到`/mnt/c/Users/xxxx/Downloads/rv64ima`，那么可以使用以下操作临时设置PATH环境变量：
+
+    ```shell
+    export PATH=/mnt/c/Users/xxxx/Downloads/rv64ima/bin:$PATH
+    ```
 
 ### 框架
 
@@ -90,13 +99,11 @@ RISC-V是一个基于精简指令集的开源指令集架构（ISA），与大�
 git clone https://github.com/CQU-CS-LABs/CO-LAB-RISCV.git
 ```
 
-!!! warning
-
-    默认指令集为RV64ima，如果没有实现乘除法请自行修改`test/test_workbench/soft/Makefile`。
-
 !!! info
     
     使用框架需要将编译器产生的bin文件夹加入PATH环境变量中（使用WSL的同学需要在WSL内加入而不是Windows中加入），对于 **当前终端** 添加，可以这么做：`export PATH=/opt/riscv/bin:$PATH`
+
+    若要永久设置环境变量，对于使用Bash（Ubuntu默认）的同学，可以将这行export添加到`~/.bashrc`中，大家可以通过`nano`、`vim`、`code`等编辑器完成修改，修改后需要重新进入bash生效。
 
 ### 流程
 
