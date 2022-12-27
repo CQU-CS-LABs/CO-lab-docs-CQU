@@ -10,7 +10,7 @@
 
 对于运行带虚拟内存支持的操作系统（例如uCore与Linux），首先需要添加TLB模块，这一点请看[MMU](../TLB.md)章节。
 
-## 运行PMON/U-Boot相比功能测试的新增需求
+## 运行PMON相比功能测试的新增需求
 
 1. Cache指令支持（没有Cache可实现为NOP，所有种类的Cache指令可简单实现为Write Back+Invalidate）
 2. MUL指令支持
@@ -27,7 +27,9 @@
 3. 除Branch-Likely外的所有MIPS32整数指令支持（Branch-Likely可以手动关，其他指令关掉不那么容易）
 
 除此之外，运行Linux的难点在于：
+
 1. 延迟槽可能有一些非常特殊的指令，会带来较多Bug。
+2. 新增的大量指令可能没有经过详细测试，尤其是非对齐访存非常容易写错。
 
 ## 编译环境的安装
 
@@ -95,3 +97,60 @@ CPU模拟器：
 3. 使用[CDIM-SoC-n4ddr](https://github.com/cyyself/CDIM-SoC/tree/n4ddr_porting)和[u-boot-cdim_soc](https://github.com/cyyself/u-boot/tree/cdim_soc)完成上板。
 
 4. 继续完成更多指令/功能的添加，然后调试运行Linux。
+
+
+## CQU Dual Issue Machine 仿真运行 uCore 演示
+
+```shell
+git clone https://github.com/Maxpicca-Li/CDIM.git
+cd CDIM
+git clone https://github.com/cyyself/soc-simulator.git -b nscscc_axi
+git clone https://github.com/cyyself/ucore-thumips.git
+cd ucore-thumips
+make -j `nproc`
+cd .. # at CDIM
+cd soc-simulator
+sed -i 's/..\/..\/mycpu/..\/mycpu/g' Makefile # 修改Makefile中的SRC_DIR由../../mycpu到../mycpu
+make
+./obj_dir/Vmycpu_top -ucore
+```
+
+你将会看到以下输出：
+
+```shell
+➜  soc-simulator git:(nscscc_axi) ✗ ./obj_dir/Vmycpu_top -ucore
+++setup timer interrupts
+Initrd: 0x8006aa50 - 0x800c224f, size: 0x00057800, magic: 0x2f8dbe2a
+(THU.CST) os is loading ...
+
+Special kernel symbols:
+  entry  0x80000108 (phys)
+  etext	0x8002B400 (phys)
+  edata	0x800C2250 (phys)
+  end	0x800C5570 (phys)
+Kernel executable memory footprint: 617KB
+memory management: buddy_pmm_manager
+memory map:
+    [80000000, 82000000]
+
+freemem start at: 80106000
+free pages: 00001EFA
+## 00000020
+check_alloc_page() succeeded!
+check_pgdir() succeeded!
+check_boot_pgdir() succeeded!
+-------------------- BEGIN --------------------
+--------------------- END ---------------------
+check_slab() succeeded!
+kmalloc_init() succeeded!
+check_vma_struct() succeeded!
+check_pgfault() succeeded!
+check_vmm() succeeded.
+sched class: RR_scheduler
+ramdisk_init(): initrd found, magic: 0x2f8dbe2a, 0x000002bc secs
+sfs: mount: 'simple file system' (81/6/87)
+vfs: mount disk0.
+kernel_execve: pid = 2, name = "sh".
+user sh is running!!!
+$ 
+```
