@@ -329,12 +329,6 @@ Virtually Indexed Physically Tagged (VIPT) Cache 是带有MMU的处理器Cache�
 
 *P.S. 如果硬件综合设计期间时间有限，可以让操作系统全部跑在Uncached地址段来简化一些必要的实现。*
 
-### 分支预测问题
-
-在启用MMU的处理器上若使用了分支预测器，可能导致跳转的位置不在TLB中从而导致TLB例外的情况，这样的做法不符合ISA定义。甚至有可能导致跳转到了无效地址处，继而内核无法处理这个Page Fault，最终导致进程被杀。因此同学们在设计处理器时需要考虑这种情况，如果一定要达成跑通操作系统的目标，可以尝试简化一些提高性能的设计。
-
-此外，学有余力的同学们也可以了解一下Meltdown和Spectre漏洞，了解一下MMU权限管理配合Cache和分支预测器可能带来的侧信道问题，可以思考硬件上如何解决这样的问题，同时对CPU性能的影响尽可能小，特别是信息安全专业将来有志于软硬件协同安全研究的同学。
-
 ## 参考资料
 
 [MIPS32 Architecture](https://www.mips.com/products/architectures/mips32-2/)
