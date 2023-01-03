@@ -207,7 +207,7 @@ if (rs1 != x0) CSR[csr_addr] <= CSR[csr_addr] | GPR[rs1];
 
 ```verilog
 GPR[rd] <= CSR[csr_addr];
-if (rs1 != x0) CSR[csr_addr] <= CSR[csr_addr] | GPR[rs1];
+if (rs1 != x0) CSR[csr_addr] <= CSR[csr_addr] & ~GPR[rs1];
 ```
 
 #### CSRRWI, CSRRSI, CSRRCI
