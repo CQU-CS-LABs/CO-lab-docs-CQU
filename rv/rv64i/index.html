@@ -1,0 +1,2181 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../intro/">
+      
+      
+        <link rel="next" href="../rv64m/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>RISC-V基础整数指令集 - 重庆大学硬件综合设计实验文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rv64i-base-integer-instruction-set" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-header__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            重庆大学硬件综合设计实验文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RISC-V基础整数指令集
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../env/tools/" class="md-tabs__link">
+          
+  
+  
+  环境配置
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../basic/language/" class="md-tabs__link">
+          
+  
+  
+  基本任务
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ext/axi/" class="md-tabs__link">
+          
+  
+  
+  扩展实验
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tips/common/" class="md-tabs__link">
+          
+  
+  
+  调试技巧
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  RISC-V挑战组
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-nav__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    重庆大学硬件综合设计实验文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    主页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    环境配置
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            环境配置
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/resource/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验资料包
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    基本任务
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            基本任务
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    了解语言
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    回顾计组实验四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_52/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到52条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_57/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到57条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/sram_soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    连接SRAM-SOC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/basic_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    基础Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/handshake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    多周期操作的握手信号
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    扩展实验
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            扩展实验
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/axi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AXI接口
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    性能优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/mmu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    运行操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/la32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoongArch32
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    调试技巧
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            调试技巧
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/common/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/wave_debug/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    使用波形图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/disasm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    反汇编
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/win-gtkwave/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows原生GTKWave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    RISC-V挑战组
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            RISC-V挑战组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    RISC-V基础整数指令集
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V基础整数指令集
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      6种基本指令格式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐阅读
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令概览
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="指令概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcode_lui" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_LUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_auipc" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_AUIPC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_jal" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_JAL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_jalr" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_JALR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_branch6" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_BRANCH（6条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_opimm9" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OPIMM（9条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_opimm-324" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OPIMM-32（4条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_op10" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OP（10条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_op-325" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OP-32（5条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_load7" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_LOAD（7条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_store4" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_STORE（4条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_fence1" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_FENCE（1条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_system2" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_SYSTEM（2条指令）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现建议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      常见问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mips" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理相比MIPS的区别：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      容易犯错的点
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rv64m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V整数乘除法扩展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../csr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V特权级与CSR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      6种基本指令格式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐阅读
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      指令概览
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="指令概览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#opcode_lui" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_LUI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_auipc" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_AUIPC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_jal" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_JAL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_jalr" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_JALR
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_branch6" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_BRANCH（6条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_opimm9" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OPIMM（9条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_opimm-324" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OPIMM-32（4条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_op10" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OP（10条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_op-325" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_OP-32（5条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_load7" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_LOAD（7条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_store4" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_STORE（4条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_fence1" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_FENCE（1条指令）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opcode_system2" class="md-nav__link">
+    <span class="md-ellipsis">
+      OPCODE_SYSTEM（2条指令）
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      实现建议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      常见问题
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mips" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理相比MIPS的区别：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      容易犯错的点
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rv64i-base-integer-instruction-set">RV64I: Base Integer Instruction Set<a class="headerlink" href="#rv64i-base-integer-instruction-set" title="Permanent link">&para;</a></h1>
+<p>指令基本格式：32位，4字节。</p>
+<p>通用寄存器（GPR）：32个，每个可以容纳64位数据。</p>
+<p>访存：最多8字节。</p>
+<h2 id="6">6种基本指令格式<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<ul>
+<li>R型指令: 用于寄存器-寄存器操作</li>
+<li>U型指令: 用于长立即数</li>
+<li>I型指令: 用于短立即数和访存load操作</li>
+<li>S型指令: 用于访存store操作</li>
+<li>B型指令: 用于条件跳转操作</li>
+<li>J型指令: 用于无条件跳转</li>
+</ul>
+<p>如下图所示<sup id="fnref:rv-manual-en"><a class="footnote-ref" href="#fn:rv-manual-en">1</a></sup>：
+<img alt="rv_base_inst_formats" src="../../img/rv_base_inst_formats.png" /></p>
+<blockquote>
+<p>S和B型指令的区别在于：
+1. B型指令的12-bit立即数用于表示跳转偏移量的2倍，故是从imm[1]开始表示。
+2. S型指令按照指令位顺序表示立即数，而B型指令有一位翻转，即imm[11]。</p>
+<p>U和J型指令的区别在于：
+1. U型指令的imm-bit左移12位构成其立即数，J型指令的imm-bit左移1位构成其立即数。
+2. J型指令存在多位翻转。</p>
+</blockquote>
+<p>如果你使用Verilog语言，你可以使用以下代码得到RV64指令的立即数和funct：</p>
+<div class="highlight"><pre><span></span><code><span class="k">input</span><span class="w"> </span><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">instr</span><span class="p">;</span>
+
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_itype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">52</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">20</span><span class="p">]};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_stype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">52</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">25</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">11</span><span class="o">:</span><span class="mh">7</span><span class="p">]};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_btype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">51</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">7</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="o">:</span><span class="mh">25</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">11</span><span class="o">:</span><span class="mh">8</span><span class="p">],</span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_utype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">32</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">12</span><span class="p">],</span><span class="mh">12</span><span class="mi">&#39;d0</span><span class="p">};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_jtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">43</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">19</span><span class="o">:</span><span class="mh">12</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">20</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="o">:</span><span class="mh">21</span><span class="p">],</span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">};</span>
+
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rs2</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">24</span><span class="o">:</span><span class="mh">20</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rs1</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">19</span><span class="o">:</span><span class="mh">15</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rd</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">11</span><span class="o">:</span><span class="mh">7</span><span class="w"> </span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">6</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">opcode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">6</span><span class="o">:</span><span class="mh">0</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">funct3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">14</span><span class="o">:</span><span class="mh">12</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">6</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">funct7</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">25</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w">   </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">funct5</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">27</span><span class="p">];</span><span class="w"> </span><span class="c1">// only used in amo</span>
+</code></pre></div>
+<h2 id="_1">推荐阅读<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><a href="https://riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf">The RISC-V Instruction Set Manual Volume I: Unprivileged ISA <strong>Chapter 24</strong></a></p>
+<p><a href="https://github.com/cyyself/cemu/blob/master/src/core/riscv/rv_core.hpp">CEMU RISC-V Core</a></p>
+<h2 id="_2">指令概览<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>RISC-V指令使用低6位表示OPCODE，指令可分为以下几类：</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>这里所述的指令种类与前文所述的指令类型意思不同。这里按照OPCODE进行分类。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="kt">logic</span><span class="w"> </span><span class="p">[</span><span class="mi">6</span><span class="o">:</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">OPCODE_LUI</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0110111</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_AUIPC</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0010111</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_JAL</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b1101111</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理</span>
+<span class="w">    </span><span class="n">OPCODE_JALR</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b1100111</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理</span>
+<span class="w">    </span><span class="n">OPCODE_BRANCH</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b1100011</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理</span>
+<span class="w">    </span><span class="n">OPCODE_LOAD</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0000011</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理</span>
+<span class="w">    </span><span class="n">OPCODE_STORE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0100011</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理</span>
+<span class="w">    </span><span class="n">OPCODE_OPIMM</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0010011</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_OPIMM32</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0011011</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_OP</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0110011</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_OP32</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0111011</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_FENCE</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b0001111</span><span class="p">,</span>
+<span class="w">    </span><span class="n">OPCODE_SYSTEM</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mb">7&#39;b1110011</span><span class="p">,</span><span class="w"> </span><span class="c1">// 需要异常处理，没有CSR时可全部实现为空操作</span>
+<span class="p">}</span><span class="w"> </span><span class="n">rv64i_opcode</span><span class="p">;</span>
+</code></pre></div>
+<p>注：异常处理涉及跳转PC非对齐、访存非对齐、访存总线异常等情况，需要同学们在设计处理器时考虑实现。在初期阶段实现CSR之前，异常处理可暂时不检查。</p>
+<h3 id="opcode_lui">OPCODE_LUI<a class="headerlink" href="#opcode_lui" title="Permanent link">&para;</a></h3>
+<p>该类指令中只有一条指令，格式如下：</p>
+<div class="highlight"><pre><span></span><code>+----------------+---------+-------+
+|   imm[31:12]   | rd[4:0] |0110111| LUI
++----------------+---------+-------+
+ 31            12 11      7 6     0
+</code></pre></div>
+<p>将立即数 <strong>符号</strong> 扩展后，存入rd寄存器，<code>[11:0]</code>部分填0。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_utype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">32</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">12</span><span class="p">],</span><span class="mh">12</span><span class="mi">&#39;d0</span><span class="p">};</span>
+
+<span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">imm_utype</span><span class="p">;</span>
+</code></pre></div></p>
+<h3 id="opcode_auipc">OPCODE_AUIPC<a class="headerlink" href="#opcode_auipc" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>+----------------+---------+-------+
+|   imm[31:12]   | rd[5:0] |0010111| AUIPC
++----------------+---------+-------+
+ 31            12 11      7 6     0
+</code></pre></div>
+<p>将立即数 <strong>符号</strong> 扩展后，<strong>加上PC</strong>，存入rd寄存器，<code>[11:0]</code>部分填0。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_utype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">32</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">12</span><span class="p">],</span><span class="mh">12</span><span class="mi">&#39;d0</span><span class="p">};</span>
+
+<span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">imm_utype</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">pc</span><span class="p">;</span>
+</code></pre></div></p>
+<h3 id="opcode_jal">OPCODE_JAL<a class="headerlink" href="#opcode_jal" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>+---------------------------+---------+-------+
+|   imm[20|10:1|11|19:12]   | rd[5:0] |1101111| 
++---------------------------+---------+-------+
+ 31                       12 11      7 6     0
+</code></pre></div>
+<p>将立即数 <strong>符号</strong> 扩展后，最低位填0，加上PC，进行跳转。跳转同时将rd寄存器写入当前<code>PC+4</code>。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_jtype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">43</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">19</span><span class="o">:</span><span class="mh">12</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">20</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="o">:</span><span class="mh">21</span><span class="p">],</span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">};</span>
+
+<span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">4</span><span class="p">;</span>
+<span class="n">pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">imm_jtype</span><span class="p">;</span>
+</code></pre></div></p>
+<p>异常：
+1. 如果<code>imm[1]</code>为1，导致跳转后PC没有4字节对齐，则在 <strong>JAL指令本身</strong> 产生<code>Instruction address misaligned</code>异常。（仅限于没有实现RVC的情况）</p>
+<h3 id="opcode_jalr">OPCODE_JALR<a class="headerlink" href="#opcode_jalr" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>+---------------+----------+---+---------+-------+
+|   imm[11:0]   | rs1[4:0] |000| rd[4:0] |1100111|
++---------------+----------+---+---------+-------+
+ 31           20 19      15     11      7 6     0
+</code></pre></div>
+<p>将立即数 <strong>忽略imm[0]</strong> <strong>符号</strong> 扩展后，加上<code>GPR[rs1]</code>，进行跳转。跳转同时将rd寄存器写入当前<code>PC+4</code>。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_itype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">52</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">20</span><span class="p">]};</span>
+
+<span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">4</span><span class="p">;</span>
+<span class="n">pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">imm_itype</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">];</span>
+</code></pre></div></p>
+<p>异常：
+1. 如果最终跳转PC没有对齐4字节（实现了RVC的核为2字节），则在 <strong>JALR指令本身</strong> 产生<code>Instruction address misaligned</code>异常。</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>为什么忽略最低位可以参考<a href="https://riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf">The RISC-V Instruction Set Manual Volume I: Unprivileged ISA Document Version 20191213</a> Page 21（PDF中的39页）。</p>
+</div>
+<h3 id="opcode_branch6">OPCODE_BRANCH（6条指令）<a class="headerlink" href="#opcode_branch6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>+--------------+----------+----------+---------+-------------+-------+
+| imm[12|10:5] | rs2[4:0] | rs1[4:0] |BRANCH_OP| imm[4:1|11] |1100011| Branch（根据BRANCH_OP取值不同含6条指令）
++--------------+----------+----------+---------+-------------+-------+
+ 31          25 24      20 19      15 14     12 11          7 6     0
+</code></pre></div>
+<p>其中，BRANCH_OP取值和对应行为如下（不写<code>$signed</code>时默认<code>unsigned</code>）：</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="kt">logic</span><span class="w"> </span><span class="p">[</span><span class="mh">2</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FUNCT3_BEQ</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b000</span><span class="p">,</span><span class="w"> </span><span class="c1">// 当GPR[rs1] == GPR[rs2]时，跳转</span>
+<span class="w">    </span><span class="n">FUNCT3_BNE</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b001</span><span class="p">,</span><span class="w"> </span><span class="c1">// 当GPR[rs1] != GPR[rs2]时，跳转</span>
+<span class="w">    </span><span class="n">FUNCT3_BLT</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b100</span><span class="p">,</span><span class="w"> </span><span class="c1">// 当$signed(GPR[rs1]) &lt;  $signed(GPR[rs2])时，跳转</span>
+<span class="w">    </span><span class="n">FUNCT3_BGE</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b101</span><span class="p">,</span><span class="w"> </span><span class="c1">// 当$signed(GPR[rs1]) &gt;= $signed(GPR[rs2])时，跳转</span>
+<span class="w">    </span><span class="n">FUNCT3_BLTU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b110</span><span class="p">,</span><span class="w"> </span><span class="c1">// 当GPR[rs1] &lt;  GPR[rs2]时，跳转</span>
+<span class="w">    </span><span class="n">FUNCT3_BGEU</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">3</span><span class="mb">&#39;b111</span><span class="w">  </span><span class="c1">// 当GPR[rs1] &gt;= GPR[rs2]时，跳转</span>
+<span class="p">}</span><span class="w"> </span><span class="n">funct3_branch</span><span class="p">;</span>
+</code></pre></div>
+<p>伪代码：</p>
+<ul>
+<li>判断部分
+    <div class="highlight"><pre><span></span><code><span class="kt">logic</span><span class="w"> </span><span class="n">branch_taken</span><span class="p">;</span>
+<span class="k">always_comb</span>
+<span class="w">    </span><span class="k">case</span><span class="p">(</span><span class="n">funct3</span><span class="p">)</span>
+<span class="w">        </span><span class="nl">FUNCT3_BEQ:</span><span class="w">  </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">==</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]</span><span class="w"> </span><span class="p">;</span>
+<span class="w">        </span><span class="nl">FUNCT3_BNE:</span><span class="w">  </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">!=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]</span><span class="w"> </span><span class="p">;</span>
+<span class="w">        </span><span class="nl">FUNCT3_BLT:</span><span class="w">  </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w">  </span><span class="o">&lt;</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]);</span>
+<span class="w">        </span><span class="nl">FUNCT3_BGE:</span><span class="w">  </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]);</span>
+<span class="w">        </span><span class="nl">FUNCT3_BLTU:</span><span class="w"> </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">&lt;</span><span class="w">          </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]</span><span class="w"> </span><span class="p">;</span>
+<span class="w">        </span><span class="nl">FUNCT3_BGEU:</span><span class="w"> </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">&gt;=</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]</span><span class="w"> </span><span class="p">;</span>
+<span class="w">        </span><span class="k">default</span><span class="o">:</span><span class="w">     </span><span class="n">branch_taken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">endcase</span>
+<span class="k">end</span>
+</code></pre></div></li>
+<li>处理器行为：
+    <div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_btype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">51</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">7</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="o">:</span><span class="mh">25</span><span class="p">],</span><span class="n">instr</span><span class="p">[</span><span class="mh">11</span><span class="o">:</span><span class="mh">8</span><span class="p">],</span><span class="mh">1</span><span class="mb">&#39;b0</span><span class="p">};</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">branch_taken</span><span class="p">)</span>
+<span class="w">    </span><span class="n">pc</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">pc</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">imm_btype</span><span class="p">;</span>
+<span class="k">end</span>
+</code></pre></div></li>
+</ul>
+<p>异常：
+1. 如果最终跳转PC没有对齐4字节（实现了RVC的核为2字节），则在 <strong>Branch指令本身</strong> 产生<code>Instruction address misaligned</code>异常。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Branch与JAL/JALR不同的是，Branch指令没有提交当前PC到寄存器。</p>
+</div>
+<h3 id="opcode_opimm9">OPCODE_OPIMM（9条指令）<a class="headerlink" href="#opcode_opimm9" title="Permanent link">&para;</a></h3>
+<p>指令类型：立即数运算指令</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code> 31               20
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 000 | rd[4:0] |0010011| ADDI
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 010 | rd[4:0] |0010011| SLTI
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 011 | rd[4:0] |0010011| SLTIU
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 100 | rd[4:0] |0010011| XORI
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 110 | rd[4:0] |0010011| ORI
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 111 | rd[4:0] |0010011| ANDI
++------+------------+----------+-----+---------+-------+
+|000000| shamt[5:0] | rs1[4:0] | 001 | rd[4:0] |0010011| SLLI
++------+------------+----------+-----+---------+-------+
+|000000| shamt[5:0] | rs1[4:0] | 101 | rd[4:0] |0010011| SRLI
++------+------------+----------+-----+---------+-------+
+|010000| shamt[5:0] | rs1[4:0] | 101 | rd[4:0] |0010011| SRAI
++------+------------+----------+-----+---------+-------+
+ 31  26 25        20 19      15 14 12 11      7 6     0
+</code></pre></div>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">63</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_itype</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">52</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">20</span><span class="p">]};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">5</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">shamt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">25</span><span class="o">:</span><span class="mh">20</span><span class="p">];</span>
+
+<span class="k">case</span><span class="p">(</span><span class="n">funct3</span><span class="p">)</span>
+<span class="w">    </span><span class="mh">000</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">imm_itype</span><span class="p">;</span><span class="w">                           </span><span class="c1">// ADDI</span>
+<span class="w">    </span><span class="mh">010</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">{</span><span class="mh">63</span><span class="mi">&#39;d0</span><span class="p">,</span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">imm_itype</span><span class="p">)};</span><span class="w"> </span><span class="c1">// SLTI</span>
+<span class="w">    </span><span class="mh">011</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">{</span><span class="mh">63</span><span class="mi">&#39;d0</span><span class="p">,</span><span class="w">        </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">&lt;</span><span class="w">         </span><span class="n">imm_itype</span><span class="p">};</span><span class="w">  </span><span class="c1">// SLTIU</span>
+<span class="w">    </span><span class="mh">100</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">imm_itype</span><span class="p">};</span><span class="w">                          </span><span class="c1">// XORI</span>
+<span class="w">    </span><span class="mh">110</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">imm_itype</span><span class="p">};</span><span class="w">                          </span><span class="c1">// ORI</span>
+<span class="w">    </span><span class="mh">111</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">imm_itype</span><span class="p">};</span><span class="w">                          </span><span class="c1">// ANDI</span>
+<span class="w">    </span><span class="mh">001</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">shamt</span><span class="p">;</span><span class="w">                              </span><span class="c1">// SLLI</span>
+<span class="w">    </span><span class="mh">101</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">shamt</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w">                 </span><span class="c1">// SRAI</span>
+<span class="w">                    </span><span class="p">(</span><span class="w">        </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">   </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">shamt</span><span class="p">)</span><span class="w">                   </span><span class="c1">// SRLI</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="k">endcase</span>
+</code></pre></div></p>
+<h3 id="opcode_opimm-324">OPCODE_OPIMM-32（4条指令）<a class="headerlink" href="#opcode_opimm-324" title="Permanent link">&para;</a></h3>
+<p>指令类型：立即数 <strong>32位</strong> 运算指令。</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code> 31                20
++--------------------+----------+-----+---------+-------+
+|     imm[11:0]      | rs1[4:0] | 000 | rd[4:0] |0011011| ADDIW
++-------+------------+----------+-----+---------+-------+
+|0000000| shamt[4:0] | rs1[4:0] | 001 | rd[4:0] |0011011| SLLIW
++-------+------------+----------+-----+---------+-------+
+|0000000| shamt[4:0] | rs1[4:0] | 101 | rd[4:0] |0011011| SRLIW
++-------+------------+----------+-----+---------+-------+
+|0100000| shamt[4:0] | rs1[4:0] | 101 | rd[4:0] |0011011| SRAIW
++-------+------------+----------+-----+---------+-------+
+ 31   25 24        20 19      15 14 12 11      7 6     0
+</code></pre></div>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">imm_itype_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{{</span><span class="mh">20</span><span class="p">{</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="p">]}},</span><span class="n">instr</span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">20</span><span class="p">]};</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">shamt_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">instr</span><span class="p">[</span><span class="mh">24</span><span class="o">:</span><span class="mh">20</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">][</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="p">;</span>
+
+<span class="k">case</span><span class="p">(</span><span class="n">funct3</span><span class="p">)</span>
+<span class="w">    </span><span class="mh">000</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">imm_itype_32</span><span class="p">;</span><span class="w">             </span><span class="c1">// ADDIW</span>
+<span class="w">    </span><span class="mh">001</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">;</span><span class="w">                </span><span class="c1">// SLLIW</span>
+<span class="w">    </span><span class="mh">101</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">$signed</span><span class="p">(</span><span class="n">rs1_32</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w">    </span><span class="c1">// SRAIW</span>
+<span class="w">                    </span><span class="p">(</span><span class="w">        </span><span class="n">rs1_32</span><span class="w">   </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">)</span><span class="w">      </span><span class="c1">// SRLIW</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="k">endcase</span>
+</code></pre></div></p>
+<h3 id="opcode_op10">OPCODE_OP（10条指令）<a class="headerlink" href="#opcode_op10" title="Permanent link">&para;</a></h3>
+<p>指令类型：寄存器运算指令。</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code>+-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 000 | rd[4:0] |0110011| ADD
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 000 | rd[4:0] |0110011| SUB
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 001 | rd[4:0] |0110011| SLL
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 010 | rd[4:0] |0110011| SLT
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 011 | rd[4:0] |0110011| SLTU
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 100 | rd[4:0] |0110011| XOR
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 101 | rd[4:0] |0110011| SRL
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 101 | rd[4:0] |0110011| SRA
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 110 | rd[4:0] |0110011| OR
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 111 | rd[4:0] |0110011| AND
++-------+----------+----------+-----+---------+-------+
+ 31   25 24      20 19      15 14 12 11      7 6     0
+</code></pre></div>
+<p>注：后续增加乘除法指令时，会共享该OPCODE，通过funct7区分。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="k">case</span><span class="p">(</span><span class="n">funct3</span><span class="p">)</span>
+<span class="w">    </span><span class="mh">000</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">])</span><span class="w"> </span><span class="o">:</span><span class="w">                         </span><span class="c1">// SUB</span>
+<span class="w">                    </span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">])</span><span class="w">                           </span><span class="c1">// ADD</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="mh">001</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">][</span><span class="mh">5</span><span class="o">:</span><span class="mh">0</span><span class="p">];</span><span class="w">                      </span><span class="c1">// SLL</span>
+<span class="w">    </span><span class="mh">010</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">{</span><span class="mh">63</span><span class="mi">&#39;d0</span><span class="p">,</span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">])};</span><span class="w">  </span><span class="c1">// SLT</span>
+<span class="w">    </span><span class="mh">011</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">{</span><span class="mh">63</span><span class="mi">&#39;d0</span><span class="p">,</span><span class="w">        </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">  </span><span class="o">&lt;</span><span class="w">         </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]};</span><span class="w">   </span><span class="c1">// SLTU</span>
+<span class="w">    </span><span class="mh">100</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]};</span><span class="w">                           </span><span class="c1">// XOR</span>
+<span class="w">    </span><span class="mh">101</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">$signed</span><span class="p">(</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">][</span><span class="mh">5</span><span class="o">:</span><span class="mh">0</span><span class="p">])</span><span class="w"> </span><span class="o">:</span><span class="w">         </span><span class="c1">// SRA</span>
+<span class="w">                    </span><span class="p">(</span><span class="w">        </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w">   </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">][</span><span class="mh">5</span><span class="o">:</span><span class="mh">0</span><span class="p">])</span><span class="w">           </span><span class="c1">// SRL</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="mh">110</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]};</span><span class="w">                           </span><span class="c1">// OR</span>
+<span class="w">    </span><span class="mh">111</span><span class="o">:</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">]};</span><span class="w">                           </span><span class="c1">// AND</span>
+<span class="k">endcase</span>
+</code></pre></div></p>
+<h3 id="opcode_op-325">OPCODE_OP-32（5条指令）<a class="headerlink" href="#opcode_op-325" title="Permanent link">&para;</a></h3>
+<p>指令类型：寄存器 <strong>32位</strong> 运算指令。</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code>+-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 000 | rd[4:0] |0111011| ADDW
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 000 | rd[4:0] |0111011| SUBW
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 001 | rd[4:0] |0111011| SLLW
++-------+----------+----------+-----+---------+-------+
+|0000000| rs2[4:0] | rs1[4:0] | 101 | rd[4:0] |0111011| SRLW
++-------+----------+----------+-----+---------+-------+
+|0100000| rs2[4:0] | rs1[4:0] | 101 | rd[4:0] |0111011| SRAW
++-------+----------+----------+-----+---------+-------+
+ 31   25 24      20 19      15 14 12 11      7 6     0
+</code></pre></div>
+<p>注：后续增加乘除法指令时，会共享该OPCODE，通过funct7区分。</p>
+<p>伪代码：
+<div class="highlight"><pre><span></span><code><span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">][</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">rs2_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">][</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">shamt_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs2</span><span class="p">][</span><span class="mh">4</span><span class="o">:</span><span class="mh">0</span><span class="p">];</span>
+<span class="kt">wire</span><span class="w"> </span><span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="p">;</span>
+
+<span class="k">case</span><span class="p">(</span><span class="n">funct3</span><span class="p">)</span>
+<span class="w">    </span><span class="mh">000</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">rs2_32</span><span class="w"> </span><span class="o">:</span><span class="w">               </span><span class="c1">// SUBW</span>
+<span class="w">                    </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs2_32</span><span class="p">;</span><span class="w">                </span><span class="c1">// ADDW</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="mh">001</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rs1_32</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">;</span><span class="w">            </span><span class="c1">// SLLW</span>
+<span class="w">    </span><span class="mh">101</span><span class="o">:</span><span class="w"> </span><span class="n">GPR_rd_32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">instr</span><span class="p">[</span><span class="mh">30</span><span class="p">]</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span><span class="n">$signed</span><span class="p">(</span><span class="n">rs1_32</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="c1">// SRAW</span>
+<span class="w">                    </span><span class="p">(</span><span class="w">        </span><span class="n">rs1_32</span><span class="w">   </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">shamt_32</span><span class="p">)</span><span class="w">  </span><span class="c1">// SRLW</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="k">endcase</span>
+</code></pre></div></p>
+<h3 id="opcode_load7">OPCODE_LOAD（7条指令）<a class="headerlink" href="#opcode_load7" title="Permanent link">&para;</a></h3>
+<p>指令类型：内存读指令。</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code>+-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 000 | rd[4:0] |0000011| LB
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 100 | rd[4:0] |0000011| LBU
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 001 | rd[4:0] |0000011| LH
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 101 | rd[4:0] |0000011| LHU
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 010 | rd[4:0] |0000011| LW
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 110 | rd[4:0] |0000011| LWU
++-------------------+----------+-----+---------+-------+
+|     imm[11:0]     | rs1[4:0] | 011 | rd[4:0] |0000011| LD
++-------------------+----------+-----+---------+-------+
+ 31               20 19      15 14 12 11      7 6     0
+</code></pre></div>
+<p>处理器行为：</p>
+<ul>
+<li>
+<p>使用<code>GPR[rs1]</code>+ <strong>有符号</strong> 扩展imm得到访存地址，从该地址读取一定宽度的数据。</p>
+</li>
+<li>
+<p>其中，B表示1字节，H表示2字节，W表示4字节，D表示8字节，访存宽度以这个决定。</p>
+</li>
+<li>
+<p>在符号扩展上，U后缀指令高位填0，不带U后缀指令则按Load大小的最高位进行符号扩展（例如LB就在取得数据的第7位符号扩展）。</p>
+</li>
+</ul>
+<p>异常处理：</p>
+<ol>
+<li>
+<p>如果CPU不支持非对齐访存（建议做不支持的CPU，以降低Cache设计难度），在<code>访存地址 % 访存宽度 ！= 0</code>时，产生<code>Load address misaligned</code>异常，交给操作系统/SBI完成非对齐访存拆分。</p>
+</li>
+<li>
+<p>如果总线支持总线错误（例如AXI总线上出现rresp不为OKEY），则产生<code>Load access fault</code>异常。</p>
+<p>（不实现的同学可以自己魔改riscv-tests，这部分不做要求）</p>
+</li>
+<li>
+<p>如果支持PMP、MMU、Hypervisor，则还可能产生<code>Load page fault</code>、<code>Load guest-page fault</code>，或因PMP产生<code>Load access fault</code>，这部分请自行阅读手册。</p>
+</li>
+</ol>
+<h3 id="opcode_store4">OPCODE_STORE（4条指令）<a class="headerlink" href="#opcode_store4" title="Permanent link">&para;</a></h3>
+<p>指令类型：内存写指令。</p>
+<p>该OPCODE下，指令如下：</p>
+<div class="highlight"><pre><span></span><code>+-----------+----------+----------+-----+----------+-------+
+| imm[11:5] | rs2[4:0] | rs1[4:0] | 000 | imm[4:0] |0100011| SB
++-----------+----------+----------+-----+----------+-------+
+| imm[11:5] | rs2[4:0] | rs1[4:0] | 001 | imm[4:0] |0100011| SH
++-----------+----------+----------+-----+----------+-------+
+| imm[11:5] | rs2[4:0] | rs1[4:0] | 010 | imm[4:0] |0100011| SW
++-----------+----------+----------+-----+----------+-------+
+| imm[11:5] | rs2[4:0] | rs1[4:0] | 011 | imm[4:0] |0100011| SD
++-----------+----------+----------+-----+----------+-------+
+ 31       25 24      20 19      15 14 12 11       7 6     0
+</code></pre></div>
+<p>处理器行为：</p>
+<ul>
+<li>
+<p>使用<code>GPR[rs1]</code>+ <strong>有符号</strong> 扩展imm得到访存地址，向该地址存储<code>GPR[rs2]</code>从低位开始一定宽度的部分。</p>
+</li>
+<li>
+<p>其中，B表示1字节，H表示2字节，W表示4字节，D表示8字节，存储宽度以这个决定。</p>
+</li>
+</ul>
+<p>异常处理：</p>
+<ol>
+<li>
+<p>如果CPU不支持非对齐访存（建议做不支持的CPU，以降低Cache设计难度），在<code>访存地址 % 访存宽度 ！= 0</code>时，产生<code>Store/AMO address misaligned</code>异常，交给操作系统/SBI完成非对齐访存拆分。</p>
+</li>
+<li>
+<p>如果总线支持总线错误（例如AXI总线上出现bresp不为OKEY），则产生<code>Store access fault</code>异常。</p>
+<p>（不实现的同学可以自己魔改riscv-tests，这部分不做要求）</p>
+</li>
+<li>
+<p>如果支持PMP、MMU、Hypervisor，则还可能产生<code>Store/AMO page fault</code>、<code>Store/AMO guest-page fault</code>，或因PMP产生<code>Store access fault</code>，这部分请自行阅读手册。</p>
+</li>
+</ol>
+<h3 id="opcode_fence1">OPCODE_FENCE（1条指令）<a class="headerlink" href="#opcode_fence1" title="Permanent link">&para;</a></h3>
+<p>指令类型：内存屏障指令。</p>
+<p>对于五级流水不带Cache的核，可以在译码阶段遇到该OPCODE直接实现为NOP。</p>
+<p>注：后续实现Cache后，实现的Zifence.i与该指令共享OPCODE，这一部分将在Cache具体介绍。</p>
+<h3 id="opcode_system2">OPCODE_SYSTEM（2条指令）<a class="headerlink" href="#opcode_system2" title="Permanent link">&para;</a></h3>
+<p>RV64I定义了以下两条指令：</p>
+<ul>
+<li>
+<p>ECALL</p>
+</li>
+<li>
+<p>EBREAK</p>
+</li>
+</ul>
+<p>对于还未实现CSR的核，可以在译码阶段遇到该OPCODE直接实现为NOP。</p>
+<h2 id="_3">实现建议<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>由于RISC-V相同OPCODE的指令集功能十分类似，推荐在Verilog语言中使用<code>case</code>语句按照OPCODE区分指令，完成译码器编写。</p>
+<h2 id="_4">常见问题<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>如果对于某一种指令，其funct部分未用全，出现OPCODE有效而指令无效怎么办，是否一定要产生异常？</p>
+<p>尽管这么做不符合规定，但RISC-V Tests不包含这一部分的测试，因此对于简单实现可以考虑不检查。但对于FUNCT_SYSTEM强烈建议进行严格检查。</p>
+</li>
+<li>
+<p>对于带立即数的移位指令，其funct部分如果其他位出现了1，是否一定要产生异常？</p>
+<p>尽管这么做不符合规定，但RISC-V Tests不包含这一部分的测试，因此对于简单实现可以考虑不检查。</p>
+</li>
+</ol>
+<h2 id="mips">异常处理相比MIPS的区别：<a class="headerlink" href="#mips" title="Permanent link">&para;</a></h2>
+<ol>
+<li>RISC-V没有运算指令异常，MIPS有Overflow异常。</li>
+<li>MIPS所有的分支/跳转指令异常发生在分支/跳转之后取指时产生，RISC-V对于取指非对齐异常必须产生在分支/跳转指令本身。（即写入CSR的mepc寄存器是Branch/Jump本身的地址）</li>
+<li>RISC-V当支持压缩指令扩展时，PC允许对齐2字节而不是4字节，此时跳转指令的取指非对齐异常检查需要相应发生变化。</li>
+</ol>
+<h2 id="_5">容易犯错的点<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ol>
+<li>32位操作与64位操作将导致不同的行为，建议将操作是32位还是64位传入ALU进行判断，在输入输出都进行32位符号扩展并不等价（例如移位指令的位数，后续的M扩展的乘法指令等）。</li>
+<li>对于移位shamt来源寄存器而非立即数的移位指令，其shamt部分对于64位和32位分别是6位和5位。</li>
+<li>JALR指令记得忽略立即数的最低位</li>
+<li>Branch不将PC+4写入<code>GPR[rd]</code>，只有JAL与JALR这么做。</li>
+</ol>
+<!-- TODO: 
+
+例如amo指令、csr指令 部分不满足6大类型
+
+分支预测的一个Trick。Return Address Stack
+-->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:rv-manual-en">
+<p>The RISC-V Instruction Set Manual Volume I: Unprivileged ISA (Document Version 20191214-draft)&#160;<a class="footnote-backref" href="#fnref:rv-manual-en" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:rv-manual-zh">
+<p>RISC-V 手册，包云岗，勾凌睿等&#160;<a class="footnote-backref" href="#fnref:rv-manual-zh" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2025年7月22日 06:54:19 UTC">2025年7月22日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:cyy@cyyself.name">Yangyu Chen</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 College of Computer Science, Chongqing University.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

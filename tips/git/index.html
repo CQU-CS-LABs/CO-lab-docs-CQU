@@ -1,0 +1,1723 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../wave_debug/">
+      
+      
+        <link rel="next" href="../disasm/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Git使用 - 重庆大学硬件综合设计实验文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gitvscode" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-header__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            重庆大学硬件综合设计实验文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git使用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../env/tools/" class="md-tabs__link">
+          
+  
+  
+  环境配置
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../basic/language/" class="md-tabs__link">
+          
+  
+  
+  基本任务
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ext/axi/" class="md-tabs__link">
+          
+  
+  
+  扩展实验
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../common/" class="md-tabs__link">
+          
+  
+  
+  调试技巧
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rv/intro/" class="md-tabs__link">
+          
+  
+  
+  RISC-V挑战组
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-nav__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    重庆大学硬件综合设计实验文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    主页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    环境配置
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            环境配置
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/resource/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验资料包
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    基本任务
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            基本任务
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    了解语言
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    回顾计组实验四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_52/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到52条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_57/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到57条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/sram_soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    连接SRAM-SOC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/basic_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    基础Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/handshake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    多周期操作的握手信号
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    扩展实验
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            扩展实验
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/axi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AXI接口
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    性能优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/mmu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    运行操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/la32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoongArch32
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    调试技巧
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            调试技巧
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wave_debug/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    使用波形图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Git使用
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git使用
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装Git
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化Git
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vscodegit" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用VSCode管理Git操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rtl" class="md-nav__link">
+    <span class="md-ellipsis">
+      把硬综已有的rtl文件加入
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      查看git历史
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#githubgitee" class="md-nav__link">
+    <span class="md-ellipsis">
+      在Github、Gitee上创建仓库
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      上传远程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      后续操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      下载远程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branch概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      查阅历史记录
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../disasm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    反汇编
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../win-gtkwave/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows原生GTKWave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    RISC-V挑战组
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            RISC-V挑战组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/rv64i/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V基础整数指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/rv64m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V整数乘除法扩展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/csr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V特权级与CSR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      简介
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git" class="md-nav__link">
+    <span class="md-ellipsis">
+      安装Git
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化Git
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vscodegit" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用VSCode管理Git操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rtl" class="md-nav__link">
+    <span class="md-ellipsis">
+      把硬综已有的rtl文件加入
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      查看git历史
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#githubgitee" class="md-nav__link">
+    <span class="md-ellipsis">
+      在Github、Gitee上创建仓库
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      上传远程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      后续操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      下载远程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Branch概念
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      查阅历史记录
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gitvscode">简易Git+VSCode使用教程<a class="headerlink" href="#gitvscode" title="Permanent link">&para;</a></h1>
+<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>Git是一个版本控制工具，可以方便同学们实现代码的 <strong>版本管理</strong> 便于同学们回顾某个时间的代码修改相比上一个版本做了哪些操作，以及 <strong>多人协作</strong> 的时候可以知道哪些代码是谁改的，为什么要改这部分代码，方便在多人协作然后合并遇到冲突的时候根据历史记录选择出恰当的合并方式。</p>
+<h2 id="git">安装Git<a class="headerlink" href="#git" title="Permanent link">&para;</a></h2>
+<p>下载地址：<a href="https://git-scm.com/">https://git-scm.com/</a></p>
+<h2 id="git_1">初始化Git<a class="headerlink" href="#git_1" title="Permanent link">&para;</a></h2>
+<p>由于Vivado工程中会存储大量综合、实现后的文件，这些文件是我们源代码的产物，通常没有必要存放在git上。</p>
+<p>因此，Git也提供了忽略文件的功能，我们可以创建<code>.gitignore</code>文件来指定忽略该文件夹下的文件。</p>
+<p>但是，对于Vivado工程来说，需要忽略的内容太多太多，因此更加建议同学们使用的方法是， <strong>只对存放RTL的文件夹使用git</strong> 。</p>
+<p>而对于IP核，比较推荐的做法是只放<code>.xci</code>文件，或者完全不放， <strong>千万不要放整个IP核的文件夹</strong> ，并确保需要初始化的block memory的coe文件放在所有组员电脑上的相同的相对位置。</p>
+<p>我们进入rtl的文件夹，然后打开命令行（Windows用户可以点右键，然后Git Bash），输入以下命令：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>init
+hint:<span class="w"> </span>Using<span class="w"> </span><span class="s1">&#39;master&#39;</span><span class="w"> </span>as<span class="w"> </span>the<span class="w"> </span>name<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>initial<span class="w"> </span>branch.<span class="w"> </span>This<span class="w"> </span>default<span class="w"> </span>branch<span class="w"> </span>name
+hint:<span class="w"> </span>is<span class="w"> </span>subject<span class="w"> </span>to<span class="w"> </span>change.<span class="w"> </span>To<span class="w"> </span>configure<span class="w"> </span>the<span class="w"> </span>initial<span class="w"> </span>branch<span class="w"> </span>name<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="k">in</span><span class="w"> </span>all
+hint:<span class="w"> </span>of<span class="w"> </span>your<span class="w"> </span>new<span class="w"> </span>repositories,<span class="w"> </span>which<span class="w"> </span>will<span class="w"> </span>suppress<span class="w"> </span>this<span class="w"> </span>warning,<span class="w"> </span>call:
+hint:<span class="w"> </span>
+hint:<span class="w">   </span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>init.defaultBranch<span class="w"> </span>&lt;name&gt;
+hint:<span class="w"> </span>
+hint:<span class="w"> </span>Names<span class="w"> </span>commonly<span class="w"> </span>chosen<span class="w"> </span>instead<span class="w"> </span>of<span class="w"> </span><span class="s1">&#39;master&#39;</span><span class="w"> </span>are<span class="w"> </span><span class="s1">&#39;main&#39;</span>,<span class="w"> </span><span class="s1">&#39;trunk&#39;</span><span class="w"> </span>and
+hint:<span class="w"> </span><span class="s1">&#39;development&#39;</span>.<span class="w"> </span>The<span class="w"> </span>just-created<span class="w"> </span>branch<span class="w"> </span>can<span class="w"> </span>be<span class="w"> </span>renamed<span class="w"> </span>via<span class="w"> </span>this<span class="w"> </span>command:
+hint:<span class="w"> </span>
+hint:<span class="w">   </span>git<span class="w"> </span>branch<span class="w"> </span>-m<span class="w"> </span>&lt;name&gt;
+Initialized<span class="w"> </span>empty<span class="w"> </span>Git<span class="w"> </span>repository<span class="w"> </span><span class="k">in</span><span class="w"> </span>/home/cyy/tmp/rtl/.git/
+</code></pre></div>
+<p>在<code>git init</code>后，这个文件夹就创建好了。</p>
+<h2 id="vscodegit">使用VSCode管理Git操作<a class="headerlink" href="#vscodegit" title="Permanent link">&para;</a></h2>
+<p>VSCode自带了一个非常简单易用的git图形界面，建议大家安装VSCode。</p>
+<h2 id="rtl">把硬综已有的rtl文件加入<a class="headerlink" href="#rtl" title="Permanent link">&para;</a></h2>
+<p>我们把硬综已有的rtl复制到刚刚执行过<code>git init</code>的文件夹中，然后用vscode打开这个文件夹，这里可以看到git处已经出现了多个我们刚刚加入的文件，我们首先点击右键，选择<code>Stage Changes</code>。</p>
+<p><img alt="git_1" src="../../img/git1.png" /></p>
+<p>接着，可以看到这些文件变成了<code>Staged Changes</code>，我们需要写一段commit message，这段message也用于我们之后简单描述我们这次commit做了哪些修改，增加了什么功能，修复了什么bug等。</p>
+<p><img alt="git_2" src="../../img/git2.png" /></p>
+<p>这里我写下了<code>init lab4</code>，然后点击上面的打钩图标commit，就完成了一次commit。</p>
+<p>首次commit可能会要求你配置邮箱和用户名，这里我们可以在主目录（Windows用户就是C:\Users\你的用户名\）下创建一个.gitconfig文件，然后采用以下格式设置：</p>
+<div class="highlight"><pre><span></span><code>[user]
+    email = 2019xxxx@cqu.edu.cn
+    name = YOUR NAME
+</code></pre></div>
+<p>这里邮箱推荐填写注册Github、Gitee的邮箱，这样push的时候可以与相应用户绑定。</p>
+<h2 id="git_2">查看git历史<a class="headerlink" href="#git_2" title="Permanent link">&para;</a></h2>
+<p>我们可以在本地使用<code>git log</code>命令查看当前文件夹下的git历史，可以看到commit记录。</p>
+<p>这里需要提醒同学们注意的是，git每次增量修改即使之后删除也会保留，因此同学们切记不要在git仓库中上传一些隐私数据，例如做Web开发时可能会有的各种API的密钥。</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>log
+
+commit<span class="w"> </span>4005b3b7cb745b42eef6b03406262ee4ab2f8cde<span class="w"> </span><span class="o">(</span>HEAD<span class="w"> </span>-&gt;<span class="w"> </span>master<span class="o">)</span>
+Author:<span class="w"> </span>Yangyu<span class="w"> </span>Chen<span class="w"> </span>&lt;cyy@cyyself.name&gt;
+Date:<span class="w">   </span>Sun<span class="w"> </span>Jan<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">04</span>:28:50<span class="w"> </span><span class="m">2022</span><span class="w"> </span>+0800
+
+<span class="w">    </span>init<span class="w"> </span>lab4
+<span class="o">(</span>END<span class="o">)</span>
+</code></pre></div>
+<h2 id="githubgitee">在Github、Gitee上创建仓库<a class="headerlink" href="#githubgitee" title="Permanent link">&para;</a></h2>
+<p>在对应网站上操作即可。他们都可以在注册账号后，在主页右上角找到<code>+</code>号。</p>
+<p>创建好仓库后，这些网站通常会提供一个仓库的URL。该URL也通常分为HTTPS和SSH，使用SSH需要大家自己创建一对非对称密钥。而SSH的优点是比HTTPS要快上很多。</p>
+<p>在创建仓库后，我们需要在本地设置url，例如平台告诉我仓库的地址是<code>git@github.com:cyyself/git-test.git</code>，可以进行以下操作：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>git@github.com:cyyself/git-test.git
+</code></pre></div>
+<p>注意，这里的origin只是指代这个URL的别名，可以随意更改，一个本地仓库也可以添加多个remote，例如你想在github和gitee上共享一个仓库，就可以用这种方法，使用不同的别名添加两个。</p>
+<h2 id="_2">上传远程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>在设置好远程URL后，我们可以使用<code>git push -u 远程别名 分支名</code>来进行上传。</p>
+<p>例如我想把master分支上传到远程origin，可以这么写：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>master
+</code></pre></div>
+<p>这里可能需要大家输入用户名和密码，如果觉得每次输入密码麻烦可以配置SSH密钥。</p>
+<h2 id="_3">后续操作<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>之后每次修改代码，我们可以用以下步骤完成同步：</p>
+<ol>
+<li>修改代码，保存到我们的文件夹</li>
+<li>在VSCode中的Git插件浏览代码修改</li>
+<li>在VSCode中挑选需要commit的文件（通常是全部），然后编写commit message，完成commit</li>
+<li>使用<code>git push</code>命令完成上传。</li>
+</ol>
+<p><img alt="git_3" src="../../img/git3.png" /></p>
+<h2 id="_4">下载远程<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>先保证当前没有Uncommited changes，若有请先commit，或至少可以确保当前修改不会和远程修改有相同的文件，然后使用命令：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>pull<span class="w"> </span>&lt;远程名&gt;<span class="w"> </span>&lt;分支名&gt;
+</code></pre></div>
+<p>如果你只想单纯下载，而不和本地merge，你可以将<code>git pull</code>换成<code>git fetch</code>。</p>
+<p>但是这里需要注意的是，如果本地分支与远程修改存在冲突，直接合并会存在问题，这里我们可能需要手动merge。</p>
+<p>如果可以自动merge时，有时候git会自动打开VIM让我们填写Commit Message，第一次接触的同学只需要知道：按<code>i</code>编辑，按<code>esc</code>退出编辑模式，退出编辑模式后可以打<code>:wq</code>退出，或者<code>:q!</code>不保存退出。</p>
+<p>而不能自动merge时，可能出现以下情况：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>master
+hint:<span class="w"> </span>You<span class="w"> </span>have<span class="w"> </span>divergent<span class="w"> </span>branches<span class="w"> </span>and<span class="w"> </span>need<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>reconcile<span class="w"> </span>them.
+hint:<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span><span class="k">do</span><span class="w"> </span>so<span class="w"> </span>by<span class="w"> </span>running<span class="w"> </span>one<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>following<span class="w"> </span>commands<span class="w"> </span>sometime<span class="w"> </span>before
+hint:<span class="w"> </span>your<span class="w"> </span>next<span class="w"> </span>pull:
+hint:<span class="w"> </span>
+hint:<span class="w">   </span>git<span class="w"> </span>config<span class="w"> </span>pull.rebase<span class="w"> </span><span class="nb">false</span><span class="w">  </span><span class="c1"># merge (the default strategy)</span>
+hint:<span class="w">   </span>git<span class="w"> </span>config<span class="w"> </span>pull.rebase<span class="w"> </span><span class="nb">true</span><span class="w">   </span><span class="c1"># rebase</span>
+hint:<span class="w">   </span>git<span class="w"> </span>config<span class="w"> </span>pull.ff<span class="w"> </span>only<span class="w">       </span><span class="c1"># fast-forward only</span>
+hint:<span class="w"> </span>
+hint:<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>replace<span class="w"> </span><span class="s2">&quot;git config&quot;</span><span class="w"> </span>with<span class="w"> </span><span class="s2">&quot;git config --global&quot;</span><span class="w"> </span>to<span class="w"> </span><span class="nb">set</span><span class="w"> </span>a<span class="w"> </span>default
+hint:<span class="w"> </span>preference<span class="w"> </span><span class="k">for</span><span class="w"> </span>all<span class="w"> </span>repositories.<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>also<span class="w"> </span>pass<span class="w"> </span>--rebase,<span class="w"> </span>--no-rebase,
+hint:<span class="w"> </span>or<span class="w"> </span>--ff-only<span class="w"> </span>on<span class="w"> </span>the<span class="w"> </span><span class="nb">command</span><span class="w"> </span>line<span class="w"> </span>to<span class="w"> </span>override<span class="w"> </span>the<span class="w"> </span>configured<span class="w"> </span>default<span class="w"> </span>per
+hint:<span class="w"> </span>invocation.
+fatal:<span class="w"> </span>Need<span class="w"> </span>to<span class="w"> </span>specify<span class="w"> </span>how<span class="w"> </span>to<span class="w"> </span>reconcile<span class="w"> </span>divergent<span class="w"> </span>branches.
+</code></pre></div>
+<p>这个时候我们可以敲命令：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>merge<span class="w"> </span>origin/master
+</code></pre></div>
+<p>即将当前分支和远程分支master合并，此时将会打开文本编辑器写commit message，自己修改或者保持默认均可。</p>
+<p>最后结果如下：</p>
+<div class="highlight"><pre><span></span><code>$ git merge origin/master
+Merge made by the &#39;ort&#39; strategy.
+ hazard.v | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+</code></pre></div>
+<p>而当修改出现冲突的时候，就会在文件里留下不同的commit的两种修改，这时候我们可以在VSCode内操作，来选择我们需要保留哪一个，或进行自主修改，然后完成commit。</p>
+<p><img alt="git_4" src="../../img/git4.png" /></p>
+<h2 id="branch">Branch概念<a class="headerlink" href="#branch" title="Permanent link">&para;</a></h2>
+<p>在一个Git仓库中有很多个分支(Branch)，在我们<code>git init</code>以后默认会创建一个<code>master</code>分支。通常在多人协作中，我们每个人创建各自不同的branch，并在各自的branch上完成自己的分工内容。</p>
+<ul>
+<li>
+<p>我们可以使用以下命令基于当前分支创建一个新分支：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>新分支名
+</code></pre></div>
+</li>
+<li>
+<p>可以使用以下命令查看已有分支：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>branch<span class="w"> </span>-a
+</code></pre></div>
+</li>
+<li>
+<p>可以使用以下命令切换分支：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>分支名
+</code></pre></div>
+</li>
+<li>
+<p>分支间合并</p>
+<p>例如，Alice创建了一个名为alice的分支，Bob创建了一个名为bob的分支，Alice合并自己与Bob的修改然后提交到master分支过程如下：</p>
+<ol>
+<li>Alice使用<code>git branch</code>查看自己当前的分支。（使用oh-my-zsh的同学可以使用git插件）若不是<code>alice</code>则执行<code>git checkout alice</code></li>
+<li>Alice执行<code>git pull</code>下载远程分支，也包括了Bob的分支。这里也可以使用<code>git fetch origin/bob</code>。</li>
+<li>Alice执行<code>git merge origin/bob</code>完成与Bob分支的合并。顺利的话可以直接合并，不顺利则按照前文所述操作。</li>
+<li>Alice执行<code>git checkout master</code>，进入master分支。</li>
+<li>Alice执行<code>git merge alice</code>将Alice分支合入master分支，完成一切。</li>
+<li>Alice执行<code>git push -u origin master</code>将主分支上传到远程服务器。</li>
+<li>Alice可选执行<code>git push -u origin alice</code>将自己分支上传到远程服务器。</li>
+</ol>
+<p>而另一边的Bob，若希望得到Alice合并后的结果，过程如下：
+1. Bob执行<code>git pull</code>下载远程分支。
+2. Bob执行<code>git merge origin/master</code>合并Alice对master分支的修改给自己的分支。
+3. Bob可选执行<code>git push -u origin bob</code>将自己分支上传到远程服务器。</p>
+</li>
+</ul>
+<h2 id="_5">查阅历史记录<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>这里大家可以在本地安装GUI工具，例如<code>GitAHead</code>，也可以直接在托管平台如<code>GitHub</code>和<code>Gitee</code>网页上查看。</p>
+<p>当我们需要在本地直接使用某个历史版本时，可以先通过<code>git log</code>查看对应版本的Hash，也可以在托管平台上点击commit得到，然后使用：</p>
+<p>例如，假设<code>git log</code>输出如下：</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>log
+
+commit<span class="w"> </span>4005b3b7cb745b42eef6b03406262ee4ab2f8cde<span class="w"> </span><span class="o">(</span>HEAD<span class="w"> </span>-&gt;<span class="w"> </span>master<span class="o">)</span>
+Author:<span class="w"> </span>Yangyu<span class="w"> </span>Chen<span class="w"> </span>&lt;cyy@cyyself.name&gt;
+Date:<span class="w">   </span>Sun<span class="w"> </span>Jan<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">04</span>:28:50<span class="w"> </span><span class="m">2022</span><span class="w"> </span>+0800
+
+<span class="w">    </span>init<span class="w"> </span>lab4
+<span class="o">(</span>END<span class="o">)</span>
+</code></pre></div>
+<p>这里的Hash就是<code>4005b3b7cb745b42eef6b03406262ee4ab2f8cde</code>。</p>
+<p>然后执行：</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>你得到的HASH
+</code></pre></div>
+<p>即可恢复到这个版本，并可以基于当前的状态使用<code>git checkout -b 新分支名</code>创建分支在旧版本上修改。而要回到目前的其他分支版本或者该分支的新版本一样可以使用<code>git checkout 分支名</code>来切换。</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2025年7月22日 06:54:19 UTC">2025年7月22日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:cyy@cyyself.name">Yangyu Chen</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 College of Computer Science, Chongqing University.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

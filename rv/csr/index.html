@@ -1,0 +1,2283 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../rv64m/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>RISC-V特权级与CSR - 重庆大学硬件综合设计实验文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#risc-v" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-header__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            重庆大学硬件综合设计实验文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RISC-V特权级与CSR
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../env/tools/" class="md-tabs__link">
+          
+  
+  
+  环境配置
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../basic/language/" class="md-tabs__link">
+          
+  
+  
+  基本任务
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../ext/axi/" class="md-tabs__link">
+          
+  
+  
+  扩展实验
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tips/common/" class="md-tabs__link">
+          
+  
+  
+  调试技巧
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../intro/" class="md-tabs__link">
+          
+  
+  
+  RISC-V挑战组
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-nav__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    重庆大学硬件综合设计实验文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    主页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    环境配置
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            环境配置
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/resource/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验资料包
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    基本任务
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            基本任务
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    了解语言
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    回顾计组实验四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_52/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到52条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_57/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到57条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/sram_soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    连接SRAM-SOC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/basic_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    基础Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/handshake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    多周期操作的握手信号
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    扩展实验
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            扩展实验
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/axi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AXI接口
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    性能优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/mmu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/os/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    运行操作系统
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ext/la32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoongArch32
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    调试技巧
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            调试技巧
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/common/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/wave_debug/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    使用波形图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/disasm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    反汇编
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/win-gtkwave/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows原生GTKWave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    RISC-V挑战组
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            RISC-V挑战组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rv64i/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V基础整数指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rv64m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V整数乘除法扩展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    RISC-V特权级与CSR
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V特权级与CSR
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权等级
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权等级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权等级的描述
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR寄存器概述
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSR寄存器概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR地址格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSR地址格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR是否可写的判断
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csr_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR可访问权限的判断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="异常处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      访存地址非对齐
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trap Value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常返回流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zicsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZiCSR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZiCSR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csrrw" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRW
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrc" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrwi-csrrsi-csrrci" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRWI, CSRRSI, CSRRCI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常返回指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断管理指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ecall-ebreak" class="md-nav__link">
+    <span class="md-ellipsis">
+      ECALL, EBREAK
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权等级
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权等级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权等级的描述
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR寄存器概述
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSR寄存器概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR地址格式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CSR地址格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csr_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR是否可写的判断
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csr_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSR可访问权限的判断
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="异常处理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      访存地址非对齐
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trap-value" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trap Value
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常返回流程
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      特权指令
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="特权指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#zicsr" class="md-nav__link">
+    <span class="md-ellipsis">
+      ZiCSR
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ZiCSR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#csrrw" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRW
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrc" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#csrrwi-csrrsi-csrrci" class="md-nav__link">
+    <span class="md-ellipsis">
+      CSRRWI, CSRRSI, CSRRCI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常返回指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断管理指令
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ecall-ebreak" class="md-nav__link">
+    <span class="md-ellipsis">
+      ECALL, EBREAK
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="risc-v">RISC-V 特权级介绍<a class="headerlink" href="#risc-v" title="Permanent link">&para;</a></h1>
+<p>相信大家已经在操作系统课程中对特权级有了基础的了解，我们在实现特权级还需要实现特权指令以及CSR寄存器，以及异常处理的逻辑。</p>
+<p>这一部分是对<a href="https://riscv.org/technical/specifications/">RISC-V Privileged Spec</a>中我们实验需要用到的部分进行精炼，精炼到只需要实现一些简单的逻辑，并最终能完成运行Linux NOMMU的目标，同学们课后有时间建议直接阅读英文Spec。</p>
+<h2 id="_1">特权等级<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>RISC-V分为以下几个特权等级：</p>
+<table>
+<thead>
+<tr>
+<th>等级编号</th>
+<th>名字</th>
+<th>简称</th>
+<th>实现难度</th>
+<th>目标建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>User/Application</td>
+<td>U</td>
+<td>☆</td>
+<td>想要运行U-Boot+Linux NOMMU的同学实现</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Supervisor</td>
+<td>S</td>
+<td>☆☆☆</td>
+<td>（课程期间很难做出来）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Hypervisor</td>
+<td>H</td>
+<td>☆☆☆☆☆</td>
+<td>（课程期间几乎不可能做出来）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Machine</td>
+<td>M</td>
+<td></td>
+<td>必须实现，且默认在M-Mode运行</td>
+</tr>
+</tbody>
+</table>
+<p>在后文中，Machine Mode中文名为“M态”，User Mode中文名为“U态”。</p>
+<p>我们推荐同学们实现M态+U态，相比纯M态并没有增加几行代码。</p>
+<h3 id="_2">特权等级的描述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>RISC-V不同于MIPS，当前特权级状态没有显式保存在CSR中，也不可由所有CSR的取指推导，因此你在设计你的CPU特权管理功能时，请务必增加一个2-bit的寄存器（硬件上的寄存器，ISA级不可见）用于保存当前特权级信息，且在reset时将值设置为<code>11</code>（Machine Mode），Machine Mode下可以通过<code>MRET</code>这条Machine Mode下的异常返回指令来切换特权级。</p>
+<h2 id="csr">CSR寄存器概述<a class="headerlink" href="#csr" title="Permanent link">&para;</a></h2>
+<p>实现单核运行Linux NOMMU目标，我们需要实现以下CSR寄存器（其实实现异常处理也只有这些寄存器：</p>
+<table>
+<thead>
+<tr>
+<th>地址（16进制）</th>
+<th>地址（2进制）</th>
+<th>名称</th>
+<th>用途</th>
+<th>权限</th>
+<th>简单实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xc00</td>
+<td>110000000000</td>
+<td>cycle</td>
+<td>当前处理器运行周期数</td>
+<td>URO</td>
+<td></td>
+</tr>
+<tr>
+<td>0xc02</td>
+<td>110000000010</td>
+<td>instret</td>
+<td>当前处理器提交指令数</td>
+<td>URO</td>
+<td></td>
+</tr>
+<tr>
+<td>0xf11</td>
+<td>111100010001</td>
+<td>mvendorid</td>
+<td>厂商ID</td>
+<td>MRO</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0xf12</td>
+<td>111100010010</td>
+<td>marchid</td>
+<td>架构ID</td>
+<td>MRO</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0xf13</td>
+<td>111100010011</td>
+<td>mimplid</td>
+<td>实现ID</td>
+<td>MRO</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0xf14</td>
+<td>111100010100</td>
+<td>mhartid</td>
+<td>Hart ID</td>
+<td>MRO</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0xf15</td>
+<td>111100010101</td>
+<td>mconfigptr</td>
+<td>M态配置指针</td>
+<td>MRO</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0x300</td>
+<td>001100000000</td>
+<td>mstatus</td>
+<td>M态状态配置</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x301</td>
+<td>001100000001</td>
+<td>misa</td>
+<td>M态指令集架构与扩展</td>
+<td>MRW</td>
+<td>只读（具体多少取决于你的CPU设计）</td>
+</tr>
+<tr>
+<td>0x304</td>
+<td>001100000100</td>
+<td>mie</td>
+<td>M态中断使能</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x305</td>
+<td>001100000101</td>
+<td>mtvec</td>
+<td>M态Trap向量</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x306</td>
+<td>001100000110</td>
+<td>mcounteren</td>
+<td>M态计数器使能</td>
+<td>MRW</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0x340</td>
+<td>001101000000</td>
+<td>mscratch</td>
+<td>M态Trap处理程序寄存器</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x341</td>
+<td>001101000001</td>
+<td>mepc</td>
+<td>M态异常PC</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x342</td>
+<td>001101000010</td>
+<td>mcause</td>
+<td>M态Trap原因</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x343</td>
+<td>001101000011</td>
+<td>mtval</td>
+<td>M态Trap时出错地址或指令</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x344</td>
+<td>001101000100</td>
+<td>mip</td>
+<td>M态中断待处理</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0xb00</td>
+<td>101100000000</td>
+<td>mcycle</td>
+<td>M态当前处理器运行周期数</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0xb02</td>
+<td>101100000010</td>
+<td>minsret</td>
+<td>M态当前指令提交数</td>
+<td>MRW</td>
+<td></td>
+</tr>
+<tr>
+<td>0x7a0</td>
+<td>011110100000</td>
+<td>tselect</td>
+<td>调试/跟踪触发寄存器选择</td>
+<td>MRW</td>
+<td>只读0</td>
+</tr>
+<tr>
+<td>0x7a1</td>
+<td>011110100001</td>
+<td>tdata1</td>
+<td>第一个调试/跟踪触发数据寄存器</td>
+<td>MRW</td>
+<td>只读1</td>
+</tr>
+</tbody>
+</table>
+<p>这些寄存器乍一看数量很多，但许多寄存器可以实现为Read Only常量，且 <strong>写时不产生异常</strong> 。</p>
+<p>（写异常只判断其本身的权限，例如mvendorid不可写需要在写时产生异常，但mcounteren在规定上是可写，写时不产生异常，但不改变其值。）</p>
+<p>这些寄存器具体的每个field大家可以自行查阅<a href="https://five-embeddev.com/quickref/csrs.html">https://five-embeddev.com/quickref/csrs.html</a>。其中mstatus可能包含许多大家不了解的field，未实现的功能可直接填0，例如mprv可直接忽略，而依赖mprv的mpp自然也可忽略。而如果写入CSR时写入了未支持的特性，需要在提交给CSR时将对应field维持不变，以便软件用于检测处理器是否支持某个硬件特性。</p>
+<p>还需要提醒的是，cycle和instret可以实现为mcycle和minstret的只读副本，且由于这两个寄存器是否可在User Mode读取取决于mcounteren的设置，但由于mcounteren我们已经设置为只读0，因此我们在CSR检查上，可简单实现为只要在User Mode使用CSR指令直接产生Illegal Instruction异常即可。</p>
+<h3 id="csr_1">CSR地址格式<a class="headerlink" href="#csr_1" title="Permanent link">&para;</a></h3>
+<p>CSR地址一共有12个二进制位，设计Decoder与CSR执行模块所需要考虑的编码格式如下：</p>
+<h4 id="csr_2">CSR是否可写的判断<a class="headerlink" href="#csr_2" title="Permanent link">&para;</a></h4>
+<p>在RISC-V指令集中，<code>CSR_Address[11:10]</code>表示用途与是否可写。其中，取值为<code>00</code>,<code>01</code>,<code>10</code>时表示为可读写，取指为<code>11</code>时表示只读。因此，我们可通过判断这两位是否为<code>11</code>来判断CSR是否可写，这涉及到异常处理。</p>
+<h4 id="csr_3">CSR可访问权限的判断<a class="headerlink" href="#csr_3" title="Permanent link">&para;</a></h4>
+<p>在RISC-V指令集中，<code>CSR_Address[9:8]</code>表示该CSR寄存器可被访问的特权级。使用<code>00</code>表示User Mode，<code>01</code>表示Supervisor Mode（我们不实现），<code>11</code>表示Machine Mode。其中，当一个CSR可被某个特权级访问时，更高的特权级也可以访问它。</p>
+<p>例如<code>cycle</code>寄存器地址为<code>0xc00</code>，二进制地址下<code>[9:8]</code>部分为0，因此是一个User Mode CSR，在User Mode、Supervisor Mode与Machine Mode均可以访问。</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>等学习了特权指令后，可以考虑观察CSR操作指令中CSR地址编码的位置，以及各特权级下的特权指令编码，你有什么发现？这一发现可以如何简化你的Decoder设计？</p>
+</div>
+<h2 id="_3">异常处理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">异常类型<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>针对ISA为RV64IMA+U Mode的处理器（符合Linux NOMMU运行需求），我们需要实现的异常如下：</p>
+<table>
+<thead>
+<tr>
+<th>异常号</th>
+<th>异常描述</th>
+<th>中文</th>
+<th>五级流水线中推荐出现的阶段</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Instruction address misaligned</td>
+<td>取指PC非对齐</td>
+<td>IF、EXE</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Instruction access fault</td>
+<td>取指访问异常</td>
+<td>IF</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Illegal instruction</td>
+<td>非法指令</td>
+<td>ID、EXE（CSR指令）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Breakpoint</td>
+<td>断点</td>
+<td>ID</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Load address misaligned</td>
+<td>内存Load非对齐</td>
+<td>EXE（也可以是MEM）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Load access fault</td>
+<td>内存Load访问异常</td>
+<td>MEM</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Store/AMO address misaligned</td>
+<td>内存Store/原子操作地址非对齐</td>
+<td>EXE（也可以是MEM）</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Store/AMO access fault</td>
+<td>内存Store/原子操作访问异常</td>
+<td>MEM</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Environment call from U-mode</td>
+<td>在User Mode使用ECALL指令</td>
+<td>ID</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Environment call from M-mode</td>
+<td>在Machine Mode使用ECALL指令</td>
+<td>ID</td>
+</tr>
+</tbody>
+</table>
+<p>其中，Breakpoint异常在硬件没有实现Watchpoint时，只在使用<code>EBREAK</code>指令时产生，为此我们可以在ID阶段判断。</p>
+<p>对于Environment call from U-mode与Environment call from M-mode两个异常，我们只在使用<code>ECALL</code>指令时产生，具体产生哪个取决于当前特权级，由于我们在ID阶段也需要判断是否为M-Mode来处理是否可执行特权指令，因此建议将当前特权级信息从CSR接入Decoder，直接由Decoder产生。</p>
+<p>对于Illegal instruction中有两个来源的问题，是因为RISC-V要求使用CSR指令访问不存在的CSR或权限检测不通过时（包含是否可写以及是否可以在当前特权级访问），需要触发Illegal instruction异常，因此Illegal instruction异常这里有两个产生的流水线阶段，一个是ID阶段指令译码失败，另一个是CSR访问时检查失败。</p>
+<p>对于Instruction address misaligned有两个来源，是因为除了取指本身PC非对齐外，还需要考虑Branch/Jump指令本身导致PC非对齐的问题。有的同学可能会想到既然已经不允许跳转到非对齐指令，为什么该异常还会出现在IF，这是因为我们使用异常处理返回也可以跳转到该PC地址，而mret等指令并不检查返回的epc。</p>
+<p>其他异常的实现相信大家看了描述可以自行理解。</p>
+<h3 id="_5">访存地址非对齐<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>RISC-V Specification并不规定CPU是否需要支持非对齐访存，对于不支持非对齐访存的CPU，当访存不对齐的时候可以产生异常，通常操作系统/SBI等软件会增加非对齐访存的处理模块。</p>
+<p>建议同学们的CPU不支持非对齐访存以简化Cache设计，如果你的Cache实现了块多字，也可以实现为只有跨Cache Line时才产生该异常，以提高出现非对齐访存的情况的性能。</p>
+<h3 id="trap-value">Trap Value<a class="headerlink" href="#trap-value" title="Permanent link">&para;</a></h3>
+<p>部分异常产生时还需要写入Trap Value来告知软件一些信息。</p>
+<p>涉及到写入Trap Value的情况如下：</p>
+<ul>
+<li>Instruction address misaligned、Instruction access fault</li>
+<li>当由Branch/Jump指令产生时，Trap Value为跳转后的非对齐地址</li>
+<li>当由IF阶段产生时（例如mret时mepc非对齐），Trap Value为PC</li>
+<li>Load address misaligned、Load access fault：Trap Value为访存地址</li>
+<li>Store/AMO address misaligned、Store/AMO access fault：Trap Value为访存地址</li>
+<li>其他异常：Trap Value写0</li>
+</ul>
+<h3 id="_6">异常处理过程<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>对于只有M Mode的处理器，当异常发生时，硬件处理流程如下：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 保存trap_value与trap_cause，由异常本身产生</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mtval</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">trap_value</span><span class="p">;</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mcause</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">trap_cause</span><span class="p">;</span>
+<span class="c1">// 记录异常时的PC</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mepc</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">PC</span><span class="p">;</span>
+<span class="c1">// 关闭中断，并记下之前的中断是否使能到mpie</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpie</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mie</span><span class="p">;</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mie</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">0</span><span class="p">;</span>
+<span class="c1">// 保存当前特权级，以便后续使用MRET能够返回到正确特权级</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpp</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">current_privileged_mode</span><span class="p">;</span>
+<span class="c1">// 将当前特权级切换到Machine_Mode，毕竟异常处理代码需要运行在该模式</span>
+<span class="n">current_privileged_mode</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Machine_Mode</span><span class="p">;</span>
+<span class="c1">// 根据CSR[mtvec]跳转到异常处理PC处</span>
+<span class="c1">//（同学们可以思考RTL如何实现，PC寄存器可不在CSR里，可以思考如何作为另一个跳转源）</span>
+<span class="n">PC</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="p">{</span><span class="n">CSR</span><span class="p">[</span><span class="n">mtvec</span><span class="p">].</span><span class="n">base</span><span class="p">,</span><span class="mh">2</span><span class="n">d</span><span class="m">&#39;0</span><span class="p">}</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">mtvec</span><span class="o">-&gt;</span><span class="n">mode</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">mcause</span><span class="p">.</span><span class="n">cause</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mh">4</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mh">0</span><span class="p">);</span><span class="w"> </span><span class="c1">// 注：mtvec有两种mode，具体可以看该寄存器的说明</span>
+</code></pre></div>
+<h3 id="_7">异常返回流程<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>见后续特权指令的<code>MRET</code>部分。</p>
+<h2 id="_8">特权指令<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="zicsr">ZiCSR<a class="headerlink" href="#zicsr" title="Permanent link">&para;</a></h3>
+<p>CSR读写指令如下：</p>
+<div class="highlight"><pre><span></span><code>                               funct3            opcode
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] |  rs1[4:0] | 001 | rd[4:0] | 1110011 | CSRRW
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] |  rs1[4:0] | 010 | rd[4:0] | 1110011 | CSRRS
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] |  rs1[4:0] | 011 | rd[4:0] | 1110011 | CSRRC
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] | uimm[4:0] | 101 | rd[4:0] | 1110011 | CSRRWI
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] | uimm[4:0] | 110 | rd[4:0] | 1110011 | CSRRSI
++-------------------+-----------+-----+---------+---------+
+| CSR Address[11:0] | uimm[4:0] | 111 | rd[4:0] | 1110011 | CSRRCI
++-------------------+-----------+-----+---------+---------+
+ 31               20 19       15 14 12 11      7 6       0
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>注：OPCODE等于<code>0b1110011</code>时，在RISC-V ISA中定义为<code>SYSTEM</code>，当funct3取指不为以上6个数时（还有2个数可取），他们不代表CSR指令，需要进一步decoder。</p>
+</div>
+<p>其中，指令行为如下所示：</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>注：本表述其实省略了CSR只写不读时带来的副作用的说明。<code>CSRRW</code>与<code>CSRWRI</code>指令按照RISC-V文档的严格定义，需要在<code>rd</code>寄存器号为<code>0</code>时不进行CSR读操作（写操作依然保留），但我们所实现的CSR寄存器范畴不存在这样的情况，同时目前所涉及CSR的异常不存在只写不触发，读写就要触发的情况，因此不会影响到其异常处理行为或是处理器行为，因此没有特殊标注。</p>
+</div>
+<h4 id="csrrw">CSRRW<a class="headerlink" href="#csrrw" title="Permanent link">&para;</a></h4>
+<p>将<code>CSR[addr]</code>当前值读取到<code>GPR[rd]</code>，然后将新值从<code>GPR[rs1]</code>写入<code>CSR[addr]</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">];</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">];</span>
+</code></pre></div>
+<h4 id="csrrs">CSRRS<a class="headerlink" href="#csrrs" title="Permanent link">&para;</a></h4>
+<p>将<code>CSR[addr]</code>当前值读取到<code>GPR[rd]</code>，然后将<code>GPR[rs1]</code>中二进制为1的位置在<code>CSR[addr]</code>中置1。</p>
+<div class="highlight"><pre><span></span><code><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">];</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">];</span>
+</code></pre></div>
+<h4 id="csrrc">CSRRC<a class="headerlink" href="#csrrc" title="Permanent link">&para;</a></h4>
+<p>将<code>CSR[addr]</code>当前值读取到<code>GPR[rd]</code>，然后将<code>GPR[rs1]</code>中二进制为1的位置在<code>CSR[addr]</code>中置0。</p>
+<div class="highlight"><pre><span></span><code><span class="n">GPR</span><span class="p">[</span><span class="n">rd</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">];</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">x0</span><span class="p">)</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">csr_addr</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="o">~</span><span class="n">GPR</span><span class="p">[</span><span class="n">rs1</span><span class="p">];</span>
+</code></pre></div>
+<h4 id="csrrwi-csrrsi-csrrci">CSRRWI, CSRRSI, CSRRCI<a class="headerlink" href="#csrrwi-csrrsi-csrrci" title="Permanent link">&para;</a></h4>
+<p>分别与上述三个不带I后缀的指令相同，只是将<code>GPR[rs1]</code>替换为<code>uimm</code>（无符号扩展那5位到64位）。</p>
+<p>然后在判断是否写行为上，将<code>if (rs1 != x0)</code>替换为<code>if (uimm != 0)</code>。</p>
+<h4 id="_9">异常处理<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>CSR指令在以下情况产生<code>Illegal instruction</code>异常：</p>
+<ol>
+<li>
+<p>操作的CSR所属特权级大于当前特权级。（对于五级流水可考虑在ID阶段判断）</p>
+<p>例如在User Mode操作Machine Mode CSR属于此类。</p>
+<p>CSR所属特权级可从其地址的<code>[9:8]</code>部分判断，前文已介绍。</p>
+</li>
+<li>
+<p>CSR不可写，但CSR操作指令包含了写行为。（对于五级流水可考虑在ID阶段判断）</p>
+<p>CSR是否可写可从CSR地址的<code>[11:10]</code>部分判断，前文已介绍。</p>
+<p>如果此时指令的rs1为x0（ **注意如果寄存器不是x0即使内容为0则代表写0，不可视为不写，所涉及异常依旧需要产生 ** ）或uimm部分为0，则不认为处理器包含写CSR行为。</p>
+<p>否则，若产生写CSR行为，如果寄存器不可写，则产生Trap。</p>
+</li>
+<li>
+<p>所访问的CSR地址未在处理器中实现（对于五级流水可考虑在EXE阶段判断）</p>
+</li>
+<li>
+<p>写CSR时写入了Write Only Legal Values的位域（可选，不推荐实现）</p>
+<p>在RISC-V手册中，定义了一些具体CSR寄存器中的部分域为Write Only Legal Values，处理器实现可以在写入这些域时产生<code>Illegal instruction</code>异常， <strong>也可以不产生</strong> 。</p>
+<p>建议不产生以简化处理器设计难度。标准的软件（如Linux, OpenSBI）都能够适应这两种实现的处理器的行为。</p>
+</li>
+</ol>
+<h3 id="_10">异常返回指令<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>异常返回指令如下：</p>
+<div class="highlight"><pre><span></span><code>  funct7                   funct3          opcode
++---------+-------+--------+-----+-------+---------+
+| 0011000 | 00010 |  00000 | 000 | 00000 | 1110011 | MRET
++---------+-------+--------+-----+-------+---------+
+ 31     25 24   20 19    15 14 12 11    7 6       0
+</code></pre></div>
+<p>mret硬件执行流程如下：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 恢复中断使能，并默认mpie为1</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mie</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpie</span><span class="p">;</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpie</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">1</span><span class="p">;</span>
+<span class="c1">// 跳转到异常发生前特权级</span>
+<span class="n">current_privileged_mode</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpp</span><span class="p">;</span>
+<span class="c1">// 检查上次异常产生的特权级是否非M_MODE，若非，则关闭修改特权级功能</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">User_Mode</span><span class="p">)</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mprv</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mh">0</span><span class="p">;</span>
+<span class="n">CSR</span><span class="p">[</span><span class="n">mstatus</span><span class="p">].</span><span class="n">mpp</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">User_Mode</span><span class="p">;</span>
+<span class="c1">// 返回之前的PC（注：该PC可能被软件改为PC+4，例如使用ECALL指令做系统调用时）</span>
+<span class="n">PC</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">CSR</span><span class="p">[</span><span class="n">mepc</span><span class="p">];</span>
+</code></pre></div>
+<p>异常：</p>
+<ul>
+<li>如果指令为MRET，则在当前特权级并非M-Mode时，产生Illegal instruction异常。</li>
+</ul>
+<p>注：如果因为mepc不对齐导致在返回时产生取指非对齐异常，则产生异常的mepc</p>
+<h3 id="_11">中断管理指令<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>这里涉及一条指令：WFI（Wait For Interrupt）</p>
+<div class="highlight"><pre><span></span><code>  funct7                   funct3          opcode
++---------+-------+--------+-----+-------+---------+
+| 0001000 | 00101 |  00000 | 000 | 00000 | 1110011 | WFI
++---------+-------+--------+-----+-------+---------+
+ 31     25 24   20 19    15 14 12 11    7 6       0
+</code></pre></div>
+<p>用于一些有电源管理的处理器暂时关闭等待下一次中断的产生，我们写的FPGA上运行的CPU直接把该指令当做空指令即可。</p>
+<p>异常：</p>
+<ul>
+<li>如果该指令在用户特权级运行，需要产生异常。</li>
+</ul>
+<h3 id="ecall-ebreak">ECALL, EBREAK<a class="headerlink" href="#ecall-ebreak" title="Permanent link">&para;</a></h3>
+<p>产生对应的异常即可，见前面的<code>异常处理类型</code>的描述。</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2025年7月22日 06:54:19 UTC">2025年7月22日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:cyy@cyyself.name">Yangyu Chen</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 College of Computer Science, Chongqing University.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

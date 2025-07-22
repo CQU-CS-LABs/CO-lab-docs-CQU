@@ -1,0 +1,1649 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../mmu/">
+      
+      
+        <link rel="next" href="../la32/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>运行操作系统 - 重庆大学硬件综合设计实验文档</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-header__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            重庆大学硬件综合设计实验文档
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              运行操作系统
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  主页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../env/tools/" class="md-tabs__link">
+          
+  
+  
+  环境配置
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../basic/language/" class="md-tabs__link">
+          
+  
+  
+  基本任务
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../axi/" class="md-tabs__link">
+          
+  
+  
+  扩展实验
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../tips/common/" class="md-tabs__link">
+          
+  
+  
+  调试技巧
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../rv/intro/" class="md-tabs__link">
+          
+  
+  
+  RISC-V挑战组
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="重庆大学硬件综合设计实验文档" class="md-nav__button md-logo" aria-label="重庆大学硬件综合设计实验文档" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 17H7V7h10m4 4V9h-2V7a2 2 0 0 0-2-2h-2V3h-2v2h-2V3H9v2H7c-1.11 0-2 .89-2 2v2H3v2h2v2H3v2h2v2a2 2 0 0 0 2 2h2v2h2v-2h2v2h2v-2h2a2 2 0 0 0 2-2v-2h2v-2h-2v-2m-6 2h-2v-2h2m2-2H9v6h6z"/></svg>
+
+    </a>
+    重庆大学硬件综合设计实验文档
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CQU-CS-LABs/CO-lab-docs-CQU" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    CO-lab-docs-CQU
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    主页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    环境配置
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            环境配置
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env/resource/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    实验资料包
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    基本任务
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            基本任务
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    了解语言
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    回顾计组实验四
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_52/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到52条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/extend_57/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    扩展到57条指令
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/sram_soc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    连接SRAM-SOC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/basic_cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    基础Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../basic/handshake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    多周期操作的握手信号
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    扩展实验
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            扩展实验
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../axi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AXI接口
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    性能优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cache
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mmu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MMU
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    运行操作系统
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    运行操作系统
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#axisoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      确保你能够使用AXI接口的SoC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLB支持
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行PMON相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ucore-thumips" class="md-nav__link">
+    <span class="md-ellipsis">
+      单纯运行ucore-thumips相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行主线Linux相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译环境的安装
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      可以参考/复现的材料：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实战建议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cqu-dual-issue-machine-ucore" class="md-nav__link">
+    <span class="md-ellipsis">
+      CQU Dual Issue Machine 仿真运行 uCore 演示
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../la32/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LoongArch32
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    调试技巧
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            调试技巧
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/common/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/wave_debug/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    使用波形图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git使用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/disasm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    反汇编
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tips/win-gtkwave/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows原生GTKWave
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    RISC-V挑战组
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            RISC-V挑战组
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/rv64i/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V基础整数指令集
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/rv64m/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V整数乘除法扩展
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rv/csr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RISC-V特权级与CSR
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#axisoc" class="md-nav__link">
+    <span class="md-ellipsis">
+      确保你能够使用AXI接口的SoC
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLB支持
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pmon" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行PMON相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ucore-thumips" class="md-nav__link">
+    <span class="md-ellipsis">
+      单纯运行ucore-thumips相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      运行主线Linux相比功能测试的新增需求
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      编译环境的安装
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      可以参考/复现的材料：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      实战建议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cqu-dual-issue-machine-ucore" class="md-nav__link">
+    <span class="md-ellipsis">
+      CQU Dual Issue Machine 仿真运行 uCore 演示
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">运行操作系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="axisoc">确保你能够使用AXI接口的SoC<a class="headerlink" href="#axisoc" title="Permanent link">&para;</a></h2>
+<p>由于操作系统运行需要较大内存支持，而SRAM无法做到高频率大容量，且我们使用的FPGA的SRAM总容量也只有512KB，因此同学们需要首先将CPU连接上AXI。</p>
+<p>如果只想仿真使用，可以通过我们发的基于<a href="https://github.com/cyyself/soc-simulator/tree/nscscc_sram_func">soc-simulator/sram</a>版本，在SRAM接口的CPU上完成TLB的支持以及OS的调试。</p>
+<h2 id="tlb">TLB支持<a class="headerlink" href="#tlb" title="Permanent link">&para;</a></h2>
+<p>对于运行带虚拟内存支持的操作系统（例如uCore与Linux），首先需要添加TLB模块，这一点请看<a href="../MMU.md">MMU</a>章节。</p>
+<h2 id="pmon">运行PMON相比功能测试的新增需求<a class="headerlink" href="#pmon" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Cache指令支持（没有Cache可实现为NOP，所有种类的Cache指令可简单实现为Write Back+Invalidate）</li>
+<li>MUL指令支持</li>
+</ol>
+<h2 id="ucore-thumips">单纯运行ucore-thumips相比功能测试的新增需求<a class="headerlink" href="#ucore-thumips" title="Permanent link">&para;</a></h2>
+<ol>
+<li>TLB支持（含TLB指令，且取指/Load/Store能够在虚拟地址执行）。</li>
+<li>CP0中ebase的支持（请自行参考MIPS文档）</li>
+</ol>
+<h2 id="linux">运行主线Linux相比功能测试的新增需求<a class="headerlink" href="#linux" title="Permanent link">&para;</a></h2>
+<ol>
+<li>TLB支持</li>
+<li>CP0完整支持（MIPS32文档中所有的Required以及和TLB/Cache有关的所有功能）。</li>
+<li>除Branch-Likely外的所有MIPS32整数指令支持（Branch-Likely可以手动关，其他指令关掉不那么容易）</li>
+</ol>
+<p>除此之外，运行Linux的难点在于：</p>
+<ol>
+<li>延迟槽可能有一些非常特殊的指令，会带来较多Bug。</li>
+<li>新增的大量指令可能没有经过详细测试，尤其是非对齐访存非常容易写错。</li>
+</ol>
+<h2 id="_2">编译环境的安装<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>调试OS的运行离不开修改OS的代码，因此需要大家有自己编译OS代码的能力，以下材料所涉及的软件编译均可以通过安装Debian衍生的Linux发行版中的<code>gcc-mipsel-linux-gnu</code>软件包进行：</p>
+<div class="highlight"><pre><span></span><code>apt<span class="w"> </span>install<span class="w"> </span>gcc-mipsel-linux-gnu
+</code></pre></div>
+<h2 id="_3">可以参考/复现的材料：<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>SoC上板工程：</p>
+<ol>
+<li>
+<p><a href="https://github.com/cyyself/CDIM-SoC/tree/n4ddr_porting">CDIM-SoC-n4ddr</a></p>
+<p>这是CQU Dual Issue Machine的SoC工程，使用Vivado Block Design搭建，同学们可以打开学习SoC内部构造，并可以尝试加入其核心代码，然后烧入U-Boot运行。</p>
+</li>
+<li>
+<p><a href="https://github.com/cyyself/EggMIPS-SoC">EggMIPS-SoC</a></p>
+<p>这是龙芯杯官方提供的运行OS工程的N4DDR移植版本。并在仓库中提供了编译好的PMON BIOS可以直接使用。如你有PMON的修改/调试需求，我们的建议是不要花时间折腾这个老古董，直接使用现代的U-Boot。</p>
+</li>
+</ol>
+<p>SoC仿真：</p>
+<ol>
+<li>
+<p><a href="https://github.com/cyyself/soc-simulator/tree/nscscc_cdim">soc-simulator/nscscc_cdim</a></p>
+<p>CQU Dual Issue Machine比赛期间使用soc-simulator做的测试框架，需要将CPU封装为AXI接口，大家可以阅读该代码参考运行不同的软件所需要的SoC设计。</p>
+<p>该Git仓库涉及软链接文件，除了需要下载<a href="https://github.com/cyyself/cemu/tree/mips32-nscscc">CEMU/mips32-nscscc</a>分支的代码外，还需注意如使用WSL请勿在<code>/mnt</code>路径下进行git clone，因为<code>/mnt</code>不支持软链接。</p>
+</li>
+</ol>
+<p>CPU模拟器：</p>
+<ol>
+<li>
+<p><a href="https://github.com/cyyself/cemu/tree/mips32-nscscc">CEMU/mips32-nscscc</a></p>
+<p>同学们可以查看<code>src/main.cpp</code>了解一个软件模拟器如何运行Linux，并对该模拟器进行修改符合你的CPU行为进行差分测试/Debug。</p>
+</li>
+</ol>
+<p>系统软件：</p>
+<ol>
+<li>
+<p><a href="https://github.com/cyyself/ucore-thumips">ucore-thumips</a></p>
+<p>uCore操作系统到MIPS的移植，直接使用make即可编译，然后可以使用龙芯的<a href="https://gitee.com/loongsonlab/qemu">QEMU</a>，直接使用<code>make qemu</code>运行。</p>
+<p>也可以使用<a href="https://github.com/cyyself/cemu/tree/mips32-nscscc">CEMU/mips32-nscscc</a>运行<code>ucore-kernel-initrd.bin</code>，具体可看代码了解文件应该放置什么路径以及代码如何修改。</p>
+<p>仿真运行已在先前介绍，上板运行取决于你使用的Bootloader。</p>
+</li>
+<li>
+<p><a href="https://github.com/cyyself/u-boot/tree/cdim_soc">u-boot-cdim_soc</a></p>
+<p>可以观察commit，了解如何写U-Boot设备树，配置栈地址等保证不与内核冲突，同时需注意U-Boot不会从CP0的config读取缓存行大小，需手动在配置文件中指定。</p>
+</li>
+<li>
+<p><a href="https://github.com/cyyself/linux/commits/cdim_soc">linux-cdim_soc</a></p>
+<p>可以观察commit，了解如何写Linux设备树，配置CPU有关参数等。</p>
+</li>
+</ol>
+<h2 id="_4">实战建议<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>首先确保你有一个AXI接口的CPU，并完成了TLB的添加。</p>
+<p>TLB测试可暂时跳过，调试操作系统时再测试TLB功能，通过龙芯杯的测试不代表你的TLB添加正确（因为它不测试虚拟地址实际取指/访存），不通过这个测试也不代表你的TLB实现不正确（它要求实现32项，但在32项TLB的情况下频率很难有保证）。</p>
+<p>尽管SRAM接口加了TLB也可以在仿真条件下运行操作系统，但后续改AXI涉及到Cache和取指访存的几乎推翻重写，会带来更多的工作量。</p>
+</li>
+<li>
+<p>使用<a href="https://github.com/cyyself/ucore-thumips">ucore-thumips</a>+<a href="https://github.com/cyyself/soc-simulator/tree/nscscc_cdim">soc-simulator/nscscc_cdim</a>完成uCore的调试。</p>
+</li>
+<li>
+<p>使用<a href="https://github.com/cyyself/CDIM-SoC/tree/n4ddr_porting">CDIM-SoC-n4ddr</a>和<a href="https://github.com/cyyself/u-boot/tree/cdim_soc">u-boot-cdim_soc</a>完成上板。</p>
+</li>
+<li>
+<p>继续完成更多指令/功能的添加，然后调试运行Linux。</p>
+</li>
+</ol>
+<h2 id="cqu-dual-issue-machine-ucore">CQU Dual Issue Machine 仿真运行 uCore 演示<a class="headerlink" href="#cqu-dual-issue-machine-ucore" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Maxpicca-Li/CDIM.git
+<span class="nb">cd</span><span class="w"> </span>CDIM
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cyyself/soc-simulator.git<span class="w"> </span>-b<span class="w"> </span>nscscc_axi
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/cyyself/ucore-thumips.git
+<span class="nb">cd</span><span class="w"> </span>ucore-thumips
+make<span class="w"> </span>-j<span class="w"> </span><span class="sb">`</span>nproc<span class="sb">`</span>
+<span class="nb">cd</span><span class="w"> </span>..<span class="w"> </span><span class="c1"># at CDIM</span>
+<span class="nb">cd</span><span class="w"> </span>soc-simulator
+sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/..\/..\/mycpu/..\/mycpu/g&#39;</span><span class="w"> </span>Makefile<span class="w"> </span><span class="c1"># 修改Makefile中的SRC_DIR由../../mycpu到../mycpu</span>
+make
+./obj_dir/Vmycpu_top<span class="w"> </span>-ucore
+</code></pre></div>
+<p>你将会看到以下输出：</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>soc-simulator<span class="w"> </span>git:<span class="o">(</span>nscscc_axi<span class="o">)</span><span class="w"> </span>✗<span class="w"> </span>./obj_dir/Vmycpu_top<span class="w"> </span>-ucore
+++setup<span class="w"> </span>timer<span class="w"> </span>interrupts
+Initrd:<span class="w"> </span>0x8006aa50<span class="w"> </span>-<span class="w"> </span>0x800c224f,<span class="w"> </span>size:<span class="w"> </span>0x00057800,<span class="w"> </span>magic:<span class="w"> </span>0x2f8dbe2a
+<span class="o">(</span>THU.CST<span class="o">)</span><span class="w"> </span>os<span class="w"> </span>is<span class="w"> </span>loading<span class="w"> </span>...
+
+Special<span class="w"> </span>kernel<span class="w"> </span>symbols:
+<span class="w">  </span>entry<span class="w">  </span>0x80000108<span class="w"> </span><span class="o">(</span>phys<span class="o">)</span>
+<span class="w">  </span>etext<span class="w"> </span>0x8002B400<span class="w"> </span><span class="o">(</span>phys<span class="o">)</span>
+<span class="w">  </span>edata<span class="w"> </span>0x800C2250<span class="w"> </span><span class="o">(</span>phys<span class="o">)</span>
+<span class="w">  </span>end<span class="w">   </span>0x800C5570<span class="w"> </span><span class="o">(</span>phys<span class="o">)</span>
+Kernel<span class="w"> </span>executable<span class="w"> </span>memory<span class="w"> </span>footprint:<span class="w"> </span>617KB
+memory<span class="w"> </span>management:<span class="w"> </span>buddy_pmm_manager
+memory<span class="w"> </span>map:
+<span class="w">    </span><span class="o">[</span><span class="m">80000000</span>,<span class="w"> </span><span class="m">82000000</span><span class="o">]</span>
+
+freemem<span class="w"> </span>start<span class="w"> </span>at:<span class="w"> </span><span class="m">80106000</span>
+free<span class="w"> </span>pages:<span class="w"> </span>00001EFA
+<span class="c1">## 00000020</span>
+check_alloc_page<span class="o">()</span><span class="w"> </span>succeeded!
+check_pgdir<span class="o">()</span><span class="w"> </span>succeeded!
+check_boot_pgdir<span class="o">()</span><span class="w"> </span>succeeded!
+--------------------<span class="w"> </span>BEGIN<span class="w"> </span>--------------------
+---------------------<span class="w"> </span>END<span class="w"> </span>---------------------
+check_slab<span class="o">()</span><span class="w"> </span>succeeded!
+kmalloc_init<span class="o">()</span><span class="w"> </span>succeeded!
+check_vma_struct<span class="o">()</span><span class="w"> </span>succeeded!
+check_pgfault<span class="o">()</span><span class="w"> </span>succeeded!
+check_vmm<span class="o">()</span><span class="w"> </span>succeeded.
+sched<span class="w"> </span>class:<span class="w"> </span>RR_scheduler
+ramdisk_init<span class="o">()</span>:<span class="w"> </span>initrd<span class="w"> </span>found,<span class="w"> </span>magic:<span class="w"> </span>0x2f8dbe2a,<span class="w"> </span>0x000002bc<span class="w"> </span>secs
+sfs:<span class="w"> </span>mount:<span class="w"> </span><span class="s1">&#39;simple file system&#39;</span><span class="w"> </span><span class="o">(</span><span class="m">81</span>/6/87<span class="o">)</span>
+vfs:<span class="w"> </span>mount<span class="w"> </span>disk0.
+kernel_execve:<span class="w"> </span><span class="nv">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sh&quot;</span>.
+user<span class="w"> </span>sh<span class="w"> </span>is<span class="w"> </span>running!!!
+$<span class="w"> </span>
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2025年7月22日 06:54:19 UTC">2025年7月22日</span>
+  </span>
+
+    
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Contributors">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:cyy@cyyself.name">Yangyu Chen</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2022 College of Computer Science, Chongqing University.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
